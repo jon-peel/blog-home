@@ -9,6 +9,15 @@
 			],
 			"label": "npm: type-check",
 			"detail": "tsc --noEmit"
+		},
+		{
+			"type": "npm",
+			"script": "lint",
+			"problemMatcher": [
+				"$eslint-stylish"
+			],
+			"label": "npm: lint",
+			"detail": "eslint --ignore-path .gitignore . --ext ts --ext tsx --ext js --ext jsx"
 		}
 	]
 }

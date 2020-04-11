@@ -3,43 +3,43 @@ import { Helmet } from 'react-helmet';
 import useSiteQuery from '../hooks/useSiteQuery';
 import type { Post } from '../types';
 
-type Props = { post?: Post };
+type Props = { post?: Post; title?: string };
 
 const lang = 'en';
 
-const meta = (metaName: TemplateStringsArray) => (metaContent: TemplateStringsArray | string) => {
+const meta = (metaName: TemplateStringsArray) => (
+	metaContent: TemplateStringsArray | string
+) => {
 	const name = metaName[0];
-	const content = typeof metaContent === 'string' ? metaContent : metaContent[0];
-	return {name, content};
+	const content =
+		typeof metaContent === 'string' ? metaContent : metaContent[0];
+	return { name, content };
 };
 
-const SEO: FC<Props> = ({post}) => {
+const SEO: FC<Props> = ({ post, title }) => {
 	const { site } = useSiteQuery();
-	const title = post?.frontmatter.title ?? site.siteMetadata.title;
+	const pageTitle = title ?? post?.frontmatter.title ?? site.siteMetadata.title;
 	const metaDescription = '' || site.siteMetadata.description;
 
 	return (
-			<Helmet
+		<Helmet
 			htmlAttributes={{
 				lang,
 			}}
-			title={title}
+			title={pageTitle}
 			// titleTemplate={`%s | ${site.siteMetadata.title}`}
 			meta={[
 				meta`descriptionn`(metaDescription),
-				meta`og:title`(title),
+				meta`og:title`(pageTitle),
 				meta`og:description`(metaDescription),
 				meta`og:type``website`,
 				meta`twitter:card``summary`,
 				meta`twitter:creator`(site.siteMetadata.author),
-				meta`twitter:title`(title),
+				meta`twitter:title`(pageTitle),
 				meta`twitter:description`(metaDescription),
 			]}
-			/>
+		/>
 	);
-}
+};
 
-
-
-			
 export default SEO;

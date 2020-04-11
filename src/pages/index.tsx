@@ -1,31 +1,23 @@
 import React from 'react';
-import { Link, graphql } from 'gatsby';
+import { graphql } from 'gatsby';
 import { StaticPageComponent } from '../types';
 import SEO from '../components/SEO';
+import Layout from '../components/Layout';
+import PostSummary from '../components/PostSummary';
 
-// import '../css/index.css'; // add some style if you want!
-
- const Index: StaticPageComponent = ({ data }) => {
+const Index: StaticPageComponent = ({ data }) => {
 	const { edges: posts } = data.allMarkdownRemark;
 	return (
-		<div className="blog-posts">
+		<Layout>
 			<SEO />
 			{posts
 				.filter((post) => post.node.frontmatter.title.length > 0)
-				.map(({ node: post }) => {
-					return (
-						<div className="blog-post-preview" key={post.id}>
-							<h1>
-								<Link to={post.frontmatter.path}>{post.frontmatter.title}</Link>
-							</h1>
-							<h2>{post.frontmatter.date}</h2>
-							<p>{post.excerpt}</p>
-						</div>
-					);
-				})}
-		</div>
+				.map(({ node }) => (
+					<PostSummary key={node.id} post={node} />
+				))}
+		</Layout>
 	);
-}
+};
 
 const pageQuery = graphql`
 	query IndexQuery {
@@ -45,6 +37,5 @@ const pageQuery = graphql`
 	}
 `;
 
-
 export default Index;
-export {pageQuery};
+export { pageQuery };
