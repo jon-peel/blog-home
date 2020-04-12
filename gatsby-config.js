@@ -6,14 +6,16 @@ module.exports = {
 		author: `Jonathan Peel`,
 	},
 	plugins: [
+		`gatsby-plugin-styled-components`,
+		`gatsby-plugin-typegen`,
 		`gatsby-plugin-typescript`,
 		`gatsby-plugin-catch-links`,
 		`gatsby-plugin-react-helmet`,
 		{
 			resolve: `gatsby-source-filesystem`,
 			options: {
-				name: `posts`,
-				path: `${__dirname}/src/pages/posts`,
+				name: `content`,
+				path: `${__dirname}/src/content`,
 			},
 		},
 		{

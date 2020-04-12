@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { PageProps } from 'gatsby';
 
 type Frontmatter = Readonly<{ title: string; path: string; date: Date }>;
 type Post = Readonly<{
@@ -14,5 +13,8 @@ type AllMarkdownRemarkType = Readonly<{
 	allMarkdownRemark: { edges: ReadonlyArray<{ node: Post }> };
 }>;
 
-type PageComponent = FC<PageProps<MarkdownRemarkType>>;
-type StaticPageComponent = FC<PageProps<AllMarkdownRemarkType>>;
+type PageComponent<Props = {}> = FC<{ data: MarkdownRemarkType } & Props>;
+
+type StaticPageComponent<Props = {}> = FC<
+	{ data: AllMarkdownRemarkType } & Props
+>;
