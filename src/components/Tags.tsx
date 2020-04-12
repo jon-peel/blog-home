@@ -1,12 +1,16 @@
 import React, { FC } from 'react';
-import { Post } from '../types';
 
-type Props = { post: Post };
+type Props = { tags: GatsbyTypes.Maybe<readonly (string | undefined)[]> };
 
-const Tags: FC<Props> = ({post}) => (
-	<ul>
-		{post.frontmatter.tags.map(t => <li key={t}>{t}</li>)}
-	</ul>
-);
+const Tags: FC<Props> = ({ tags }) =>
+	tags ? (
+		<ul>
+			{tags
+			.filter(t => !!t)
+			.map((t) => (
+				<li key={t}>{t}</li>
+			))}
+		</ul>
+	) : null;
 
 export default Tags;

@@ -1,9 +1,8 @@
 import React, { FC } from 'react';
 import { Helmet } from 'react-helmet';
 import useSiteQuery from '../hooks/useSiteQuery';
-import type { Post } from '../types';
 
-type Props = { post?: Post; title?: string };
+type Props = { data?: GatsbyTypes.BlogPostByPathQuery ; title?: string };
 
 const lang = 'en';
 
@@ -16,9 +15,9 @@ const meta = (metaName: TemplateStringsArray) => (
 	return { name, content };
 };
 
-const SEO: FC<Props> = ({ post, title }) => {
+const SEO: FC<Props> = ({ data, title }) => {
 	const { site } = useSiteQuery();
-	const pageTitle = title ?? post?.frontmatter.title ?? site.siteMetadata.title;
+	const pageTitle = title ?? data?.markdownRemark?.frontmatter?.title ?? site.siteMetadata.title;
 	const metaDescription = '' || site.siteMetadata.description;
 
 	return (

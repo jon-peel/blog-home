@@ -1,18 +1,21 @@
 import React, { FC } from 'react';
-import { Post } from '../types';
 import { Link } from 'gatsby';
 import Tags from './Tags';
 
-type Props = { post: Post };
+type Node =  GatsbyTypes.IndexQuery['allMarkdownRemark']['edges'][0]['node'];
 
-const PostSummary: FC<Props> = ({ post }) => (
+type Props = { node: Node };
+
+const PostSummary: FC<Props> = ({ node }) => (
 	<article className="blog-post-preview">
 		<h2>
-			<Link to={post.frontmatter.path}>{post.frontmatter.title}</Link>
+		{node.frontmatter?.path && 
+			<Link to={node.frontmatter.path}>{node.frontmatter.title}</Link>
+		}
 		</h2>
-		<h3>{post.frontmatter.date}</h3>
-		<Tags post={post} />
-		<p>{post.excerpt}</p>
+		{node.frontmatter?.date && <h3>{node.frontmatter?.date}</h3>}
+		<Tags tags={node.frontmatter?.tags} />
+		<p>{node.excerpt}</p>
 	</article>
 );
 

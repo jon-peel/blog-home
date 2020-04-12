@@ -2826,10 +2826,10 @@ type Unnamed_1_QueryVariables = {};
 
 type Unnamed_1_Query = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title' | 'description' | 'author'>> }> };
 
-type IndexQueryQueryVariables = {};
+type IndexQueryVariables = {};
 
 
-type IndexQueryQuery = { readonly allMarkdownRemark: { readonly edges: ReadonlyArray<{ readonly node: (
+type IndexQuery = { readonly allMarkdownRemark: { readonly edges: ReadonlyArray<{ readonly node: (
         Pick<MarkdownRemark, 'excerpt' | 'id' | 'fileAbsolutePath'>
         & { readonly frontmatter: Maybe<Pick<MarkdownRemarkFrontmatter, 'title' | 'date' | 'path' | 'tags'>> }
       ) }> } };

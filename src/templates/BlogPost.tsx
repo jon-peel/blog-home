@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { graphql } from 'gatsby';
-import { PageComponent } from '../types';
 import SEO from '../components/SEO';
 import Layout from '../components/Layout';
 import Tags from '../components/Tags';
+import { PageComponent } from '../types';
 
-const BlogPost: PageComponent = ({ data }) => {
+const BlogPost: PageComponent<GatsbyTypes.BlogPostByPathQuery> = ({ data }) => {
 	const { markdownRemark: post } = data;
+	const __html = post?.html ?? '';
+
 	return (
 		<Layout>
-			<SEO post={post} />
+			<SEO data={data} />
 			<article className="blog-post">
-				<h1>{post.frontmatter.title}</h1>
-				<Tags post={post} />
-				<section dangerouslySetInnerHTML={{ __html: post.html }} />
+				<h1>{post?.frontmatter?.title}</h1>
+				<Tags tags={post?.frontmatter?.tags} />
+				<section dangerouslySetInnerHTML={{ __html }} />
 			</article>
 		</Layout>
 	);

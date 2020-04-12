@@ -1,26 +1,26 @@
 import React from 'react';
 import { graphql } from 'gatsby';
-import { StaticPageComponent } from '../types';
+import { PageComponent } from '../types';
 import SEO from '../components/SEO';
 import Layout from '../components/Layout';
 import PostSummary from '../components/PostSummary';
 
-const Index: StaticPageComponent = ({ data }) => {
+const Index: PageComponent<GatsbyTypes.IndexQuery> = ({ data }) => {
 	const { edges } = data.allMarkdownRemark;
-	const posts = edges.filter((post) => post.node.frontmatter.title.length > 0);
+	const posts = edges.filter((post) => !!post.node.frontmatter?.title?.length);
 
 	return (
-		<Layout data={data}>
+		<Layout>
 			<SEO />
 			{posts.map(({ node }) => (
-				<PostSummary key={node.id} post={node} />
+				<PostSummary key={node.id} node={node} />
 			))}
 		</Layout>
 	);
 };
 
 const pageQuery = graphql`
-	query IndexQuery {
+	query Index {
 		allMarkdownRemark(
 			sort: { order: DESC, fields: [frontmatter___date] }
 			filter: { fileAbsolutePath: { regex: "//posts//" } }

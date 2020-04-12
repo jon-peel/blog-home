@@ -6,6 +6,7 @@ module.exports = {
 		author: `Jonathan Peel`,
 	},
 	plugins: [
+		`gatsby-plugin-netlify`,
 		`gatsby-plugin-styled-components`,
 		`gatsby-plugin-typegen`,
 		`gatsby-plugin-typescript`,
