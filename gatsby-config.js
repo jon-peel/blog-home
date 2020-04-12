@@ -57,12 +57,11 @@ module.exports = {
 						}
 					`,
 						output: '/rss.xml',
-						title: "Your Site's RSS Feed",
+						title: "Jonathan Peel's RSS Feed",
 					},
 				],
 			},
 		},
-
 		`gatsby-plugin-netlify`,
 		`gatsby-plugin-styled-components`,
 		`gatsby-plugin-typegen`,
