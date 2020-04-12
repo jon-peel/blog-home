@@ -1,7 +1,7 @@
 ---
 title: First Post
 date: 2020-04-11T09:49:47.895Z
-path: /posts/first-post
+slug: /posts/first-post
 tags:
   - first
   - blog

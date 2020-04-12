@@ -5,14 +5,14 @@ import Layout from '../components/Layout';
 import Tags from '../components/Tags';
 import { PageComponent } from '../types';
 
-const BlogPost: PageComponent<GatsbyTypes.BlogPostByPathQuery> = ({ data }) => {
+const BlogPost: PageComponent<GatsbyTypes.BlogPostQuery> = ({ data }) => {
 	const { markdownRemark: post } = data;
 	const __html = post?.html ?? '';
 
 	return (
 		<Layout>
 			<SEO data={data} />
-			<article className="blog-post">
+			<article>
 				<h1>{post?.frontmatter?.title}</h1>
 				<Tags tags={post?.frontmatter?.tags} />
 				<section dangerouslySetInnerHTML={{ __html }} />
@@ -22,12 +22,12 @@ const BlogPost: PageComponent<GatsbyTypes.BlogPostByPathQuery> = ({ data }) => {
 };
 
 const pageQuery = graphql`
-	query BlogPostByPath($path: String!) {
-		markdownRemark(frontmatter: { path: { eq: $path } }) {
+	query BlogPost($path: String!) {
+		markdownRemark(frontmatter: { slug: { eq: $path } }) {
 			html
 			frontmatter {
 				date(formatString: "MMMM DD, YYYY")
-				path
+				slug
 				title
 				tags
 			}

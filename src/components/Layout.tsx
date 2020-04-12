@@ -22,6 +22,7 @@ const Layout: FC = ({ children }) => {
 			<header>
 				<Link to="/">Jonathan Peel</Link>
 				<Nav />
+				<a rel="feed" href="/rss.xml">RSS</a>
 			</header>
 			<main id="main">{children}</main>
 			<footer>

@@ -1,6 +1,6 @@
 ---
 title: About
-path: /about
+slug: /about
 ---
 
 Yo yo yo

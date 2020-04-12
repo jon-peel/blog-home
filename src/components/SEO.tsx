@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Helmet } from 'react-helmet';
 import useSiteQuery from '../hooks/useSiteQuery';
 
-type Props = { data?: GatsbyTypes.BlogPostByPathQuery ; title?: string };
+type Props = { data?: GatsbyTypes.BlogPostQuery ; title?: string };
 
 const lang = 'en';
 
@@ -37,7 +37,9 @@ const SEO: FC<Props> = ({ data, title }) => {
 				meta`twitter:title`(pageTitle),
 				meta`twitter:description`(metaDescription),
 			]}
-		/>
+		>
+			<link rel="feed" type="application/rss+xml" title="RSS feed" href="/rss.xml" />
+		</Helmet>
 	);
 };
 
