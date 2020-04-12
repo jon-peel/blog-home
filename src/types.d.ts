@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-type Frontmatter = Readonly<{ title: string; path: string; date: Date }>;
+type Frontmatter = Readonly<{ title: string; path: string; date: Date, tags: string[] }>;
 type Post = Readonly<{
 	frontmatter: Frontmatter;
 	html: string;

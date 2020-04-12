@@ -682,8 +682,8 @@ enum FileFieldsEnum {
   internal___type = 'internal.type',
   childMarkdownRemark___id = 'childMarkdownRemark.id',
   childMarkdownRemark___frontmatter___title = 'childMarkdownRemark.frontmatter.title',
-  childMarkdownRemark___frontmatter___path = 'childMarkdownRemark.frontmatter.path',
   childMarkdownRemark___frontmatter___date = 'childMarkdownRemark.frontmatter.date',
+  childMarkdownRemark___frontmatter___path = 'childMarkdownRemark.frontmatter.path',
   childMarkdownRemark___frontmatter___categories = 'childMarkdownRemark.frontmatter.categories',
   childMarkdownRemark___frontmatter___tags = 'childMarkdownRemark.frontmatter.tags',
   childMarkdownRemark___excerpt = 'childMarkdownRemark.excerpt',
@@ -1452,8 +1452,8 @@ type MarkdownRemarkEdge = {
 enum MarkdownRemarkFieldsEnum {
   id = 'id',
   frontmatter___title = 'frontmatter.title',
-  frontmatter___path = 'frontmatter.path',
   frontmatter___date = 'frontmatter.date',
+  frontmatter___path = 'frontmatter.path',
   frontmatter___categories = 'frontmatter.categories',
   frontmatter___tags = 'frontmatter.tags',
   excerpt = 'excerpt',
@@ -1577,8 +1577,8 @@ type MarkdownRemarkFilterInput = {
 
 type MarkdownRemarkFrontmatter = {
   readonly title: Maybe<Scalars['String']>;
-  readonly path: Maybe<Scalars['String']>;
   readonly date: Maybe<Scalars['Date']>;
+  readonly path: Maybe<Scalars['String']>;
   readonly categories: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
   readonly tags: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
 };
@@ -1593,8 +1593,8 @@ type MarkdownRemarkFrontmatter_dateArgs = {
 
 type MarkdownRemarkFrontmatterFilterInput = {
   readonly title: Maybe<StringQueryOperatorInput>;
-  readonly path: Maybe<StringQueryOperatorInput>;
   readonly date: Maybe<DateQueryOperatorInput>;
+  readonly path: Maybe<StringQueryOperatorInput>;
   readonly categories: Maybe<StringQueryOperatorInput>;
   readonly tags: Maybe<StringQueryOperatorInput>;
 };
@@ -2803,6 +2803,16 @@ type StringQueryOperatorInput = {
   readonly glob: Maybe<Scalars['String']>;
 };
 
+type BlogPostByPathQueryVariables = {
+  path: Scalars['String'];
+};
+
+
+type BlogPostByPathQuery = { readonly markdownRemark: Maybe<(
+    Pick<MarkdownRemark, 'html'>
+    & { readonly frontmatter: Maybe<Pick<MarkdownRemarkFrontmatter, 'date' | 'path' | 'title' | 'tags'>> }
+  )> };
+
 type NavQueryVariables = {};
 
 
@@ -2816,15 +2826,13 @@ type Unnamed_1_QueryVariables = {};
 
 type Unnamed_1_Query = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title' | 'description' | 'author'>> }> };
 
-type BlogPostByPathQueryVariables = {
-  path: Scalars['String'];
-};
+type IndexQueryQueryVariables = {};
 
 
-type BlogPostByPathQuery = { readonly markdownRemark: Maybe<(
-    Pick<MarkdownRemark, 'html'>
-    & { readonly frontmatter: Maybe<Pick<MarkdownRemarkFrontmatter, 'date' | 'path' | 'title'>> }
-  )> };
+type IndexQueryQuery = { readonly allMarkdownRemark: { readonly edges: ReadonlyArray<{ readonly node: (
+        Pick<MarkdownRemark, 'excerpt' | 'id' | 'fileAbsolutePath'>
+        & { readonly frontmatter: Maybe<Pick<MarkdownRemarkFrontmatter, 'title' | 'date' | 'path' | 'tags'>> }
+      ) }> } };
 
 type GatsbyImageSharpFixedFragment = Pick<ImageSharpFixed, 'base64' | 'width' | 'height' | 'src' | 'srcSet'>;
 
@@ -2873,14 +2881,6 @@ type GatsbyImageSharpSizes_withWebp_tracedSVGFragment = Pick<ImageSharpSizes, 't
 type GatsbyImageSharpSizes_noBase64Fragment = Pick<ImageSharpSizes, 'aspectRatio' | 'src' | 'srcSet' | 'sizes'>;
 
 type GatsbyImageSharpSizes_withWebp_noBase64Fragment = Pick<ImageSharpSizes, 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
-
-type IndexQueryQueryVariables = {};
-
-
-type IndexQueryQuery = { readonly allMarkdownRemark: { readonly edges: ReadonlyArray<{ readonly node: (
-        Pick<MarkdownRemark, 'excerpt' | 'id' | 'fileAbsolutePath'>
-        & { readonly frontmatter: Maybe<Pick<MarkdownRemarkFrontmatter, 'title' | 'date' | 'path'>> }
-      ) }> } };
 
 type PagesQueryQueryVariables = {};
 

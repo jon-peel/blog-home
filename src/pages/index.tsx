@@ -34,6 +34,7 @@ const pageQuery = graphql`
 						title
 						date(formatString: "MMMM DD, YYYY")
 						path
+						tags
 					}
 				}
 			}

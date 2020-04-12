@@ -3,6 +3,7 @@ import Nav from './Nav';
 import { Link } from 'gatsby';
 import { createGlobalStyle } from 'styled-components';
 import SkipLink from '../atoms/SkipLink';
+import Licence from './Licence';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -23,7 +24,12 @@ const Layout: FC = ({ children }) => {
 				<Nav />
 			</header>
 			<main id="main">{children}</main>
-			<footer>&copy; 2020, Jonathan Peel</footer>
+			<footer>
+				<Licence />
+				<div>
+				&copy; 2020, Jonathan Peel
+				</div>
+			</footer>
 		</>
 	);
 };
