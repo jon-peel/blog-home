@@ -1,12 +1,13 @@
 import { createGlobalStyle, css } from "styled-components";
 
 const grid = css`
+	display: -ms-grid;
 	display: grid;
-	grid: 
-		"side head"
+	grid:
+		"s1 head"
 		"side main"
-		"side foot"
-		/ 284px fill;
+		"s2 foot"
+		/ 284px auto;
 `;
 
 const GlobalStyle = createGlobalStyle`
