@@ -2,10 +2,7 @@ import React, { FC } from 'react';
 import { graphql } from 'gatsby';
 import SEO from '../components/SEO';
 import Layout from '../components/Layout';
-import Tags from '../components/Tags';
 import { PageComponent } from '../types';
-import { DiscussionEmbed } from "disqus-react"
-
 
 const PageTemplate: PageComponent<GatsbyTypes.PageQuery> = ({ data }) => {
 	const { markdownRemark: post } = data;
@@ -14,10 +11,12 @@ const PageTemplate: PageComponent<GatsbyTypes.PageQuery> = ({ data }) => {
 	return (
 		<Layout>
 			<SEO data={data} />
+			<main>
 			<article>
 				<h2>{post?.frontmatter?.title}</h2>
-				<section dangerouslySetInnerHTML={{ __html }} />
+				<main dangerouslySetInnerHTML={{ __html }} />
 			</article>
+			</main>
 		</Layout>
 	);
 };

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import Nav from './Nav';
+import Nav from './PagesNav';
 import { Link } from 'gatsby';
 import SkipLink from '../atoms/SkipLink';
 import Licence from './Licence';
@@ -14,7 +14,7 @@ const Layout: FC = ({ children }) => {
 			<SkipLink href="#main">Skip to main content</SkipLink>
 			<SideNav />
 			<header>
-				<Link to="/"><h1>Jonathan Peel</h1></Link>
+				<h1><Link to="/">Jonathan Peel</Link></h1>
 			</header>
 			<main id="main">{children}</main>
 			<footer>

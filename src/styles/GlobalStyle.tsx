@@ -6,13 +6,13 @@ const grid = css`
 		"side head"
 		"side main"
 		"side foot"
-		/ 284px 890px;
+		/ 284px fill;
 `;
 
 const GlobalStyle = createGlobalStyle`
   * { margin: 0; padding: 0; }
 	
-  a { color: #d80b0b; text-decoration: none; }
+  a, h4 { color: #d80b0b; text-decoration: none; }
 
 	body {
 		background: #e7e7e7;
@@ -32,6 +32,8 @@ const GlobalStyle = createGlobalStyle`
 		section {display: flex; justify-content: flex-end; }
 	}
 
+	h1 { margin: 0 auto; }
+
 	h1, h2, h3 { margin-bottom: 8px; }
 
 	h3 { 
@@ -48,11 +50,13 @@ const GlobalStyle = createGlobalStyle`
 		margin: 0 auto;
 	}
 
+	aside { nav { & > * { display: block; border-bottom: 1px solid #d80b0b; padding: 10px; } } }
+
 	article { 
 		background: white; 
 		padding: 30px 40px;
-		margin-bottom: 16px;
-
+		margin: 0 auto 16px;
+		width: 890px;
 		main {
 			margin: 30px 0;
 		}

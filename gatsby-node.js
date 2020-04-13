@@ -18,10 +18,11 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
 
 	const BlogPostTemplate = path.resolve(`src/templates/BlogPostTemplate.tsx`);
 	const PageTemplate = path.resolve(`src/templates/PageTemplate.tsx`);
+	const TagsTemplate = path.resolve(`src/templates/TagsTemplate.tsx`);
 
 	const result = await graphql(`
 		{
-			allMarkdownRemark(
+			postsRemark: allMarkdownRemark(
 				sort: { order: DESC, fields: [frontmatter___date] }
 				limit: 1000
 			) {
@@ -33,6 +34,11 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
 					}
 				}
 			}
+			tagsGroup: allMarkdownRemark(limit: 2000) {
+        group(field: frontmatter___tags) {
+          fieldValue
+        }
+      }
 		}
 	`);
 
@@ -41,12 +47,23 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
 		return;
 	}
 
-	result.data.allMarkdownRemark.edges.forEach(({ node }) => {
+	result.data.postsRemark.edges.forEach(({ node }) => {
 		const component = node.frontmatter.slug.startsWith('/posts/') ? BlogPostTemplate : PageTemplate;
 		createPage({
 			path: node.frontmatter.slug,
 			component,
 			context: {},
 		});
+
+		result.data.tagsGroup.group.forEach(tag => {
+			createPage({
+				path: `/tags/${tag.fieldValue}/`,
+				component: TagsTemplate,
+				context: {
+					tag: tag.fieldValue,
+				},
+			});
+		});
 	});
+	
 };

@@ -19,21 +19,21 @@ const query = graphql`
 	}
 `;
 
-const Nav: FC = () => {
+const PagesNav: FC = () => {
 	const pages = useStaticQuery<GatsbyTypes.NavQuery>(query)
 		.pages.edges.map(
 			(page) => page.node.frontmatter as GatsbyTypes.MarkdownRemarkFrontmatter
 		)
 		.filter((page) => page?.title?.length);
 	return (
-		<nav>
+		<>
 			{pages.map((page) => (
 				<>
-					<Link to={page.slug as string}>{page.title}</Link><br />
+					<h4><Link to={page.slug as string}>{page.title}</Link></h4>
 				</>
 			))}
-		</nav>
+		</>
 	);
 };
 
-export default Nav;
+export default PagesNav;
