@@ -8,12 +8,12 @@ type Props = { node: Node };
 
 const PostSummary: FC<Props> = ({ node }) => (
 	<article className="blog-post-preview">
-		<h2>
+		<h3>
 		{node.frontmatter?.slug && 
 			<Link to={node.frontmatter.slug}>{node.frontmatter.title}</Link>
 		}
-		</h2>
-		{node.frontmatter?.date && <h3>{node.frontmatter?.date}</h3>}
+		</h3>
+		{node.frontmatter?.date && <h4>{node.frontmatter?.date}</h4>}
 		<Tags tags={node.frontmatter?.tags} />
 		<p>{node.excerpt}</p>
 	</article>

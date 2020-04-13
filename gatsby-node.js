@@ -16,7 +16,8 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
 exports.createPages = async ({ actions, graphql, reporter }) => {
 	const { createPage } = actions;
 
-	const blogPostTemplate = path.resolve(`src/templates/BlogPost.tsx`);
+	const BlogPostTemplate = path.resolve(`src/templates/BlogPostTemplate.tsx`);
+	const PageTemplate = path.resolve(`src/templates/PageTemplate.tsx`);
 
 	const result = await graphql(`
 		{
@@ -41,9 +42,10 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
 	}
 
 	result.data.allMarkdownRemark.edges.forEach(({ node }) => {
+		const component = node.frontmatter.slug.startsWith('/posts/') ? BlogPostTemplate : PageTemplate;
 		createPage({
 			path: node.frontmatter.slug,
-			component: blogPostTemplate,
+			component,
 			context: {},
 		});
 	});

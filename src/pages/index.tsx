@@ -4,6 +4,7 @@ import { PageComponent } from '../types';
 import SEO from '../components/SEO';
 import Layout from '../components/Layout';
 import PostSummary from '../components/PostSummary';
+import BlogPostIndex from '../atoms/BlogPostIndex';
 
 const Index: PageComponent<GatsbyTypes.IndexQuery> = ({ data }) => {
 	const { edges } = data.allMarkdownRemark;
@@ -12,9 +13,12 @@ const Index: PageComponent<GatsbyTypes.IndexQuery> = ({ data }) => {
 	return (
 		<Layout>
 			<SEO />
-			{posts.map(({ node }) => (
-				<PostSummary key={node.id} node={node} />
-			))}
+			<h2>Recent Posts</h2>
+			<BlogPostIndex>
+				{posts.map(({ node }) => (
+					<PostSummary key={node.id} node={node} />
+				))}
+			</BlogPostIndex>
 		</Layout>
 	);
 };

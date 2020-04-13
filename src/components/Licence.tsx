@@ -3,9 +3,8 @@ import styled from 'styled-components';
 
 const href = 'http://creativecommons.org/licenses/by-nc-sa/4.0/';
 const src = 'https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png';
-const alt = 'CC BY-NC-SA 4.0';
-const name =
-	'Creative Commons Attribution-NonCommercialSareAlike 4.0 International Licens';
+const alt =
+	'This blog is licensed under a Creative Commons Attribution-NonCommercialSareAlike 4.0 International Licens';
 
 const LicencImage = styled.img.attrs({alt,src})`
 	border-width: 0;
@@ -14,16 +13,9 @@ const LicencImage = styled.img.attrs({alt,src})`
 `;
 
 const Licence = () => (
-	<>
-		<a rel="license" href={href}>
-			<LicencImage />
-		</a>
-		<br />
-		This blog is licensed under a {' '}
-		<a rel="license" href={href}>
-		{name}
-		</a>
-	</>
+	<a rel="license" href={href}>
+		<LicencImage />
+	</a>
 );
 
 export default Licence;

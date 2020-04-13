@@ -11,7 +11,20 @@ const GlobalStyle = createGlobalStyle`
 		padding: 0;
 		background: white;
     color: black;
+		font-family: 'Courier New', Courier, monospace;
   }
+
+	header, footer {
+		display: flex;
+		justify-content: space-between;
+    align-items: baseline;
+
+		section {display: flex; justify-content: flex-end; }
+	}
+
+	h1 { margin: 0 }
+
+	footer { background: darkgray; color: black; font-size: smaller; }
 `;
 
 const Layout: FC = ({ children }) => {
@@ -20,9 +33,11 @@ const Layout: FC = ({ children }) => {
 			<GlobalStyle />
 			<SkipLink href="#main">Skip to main content</SkipLink>
 			<header>
-				<Link to="/">Jonathan Peel</Link>
-				<Nav />
-				<a rel="feed" href="/rss.xml">RSS</a>
+				<Link to="/"><h1>Jonathan Peel</h1></Link>
+				<section>
+					<Nav />
+					<a rel="feed" href="/rss.xml">RSS</a>
+				</section>
 			</header>
 			<main id="main">{children}</main>
 			<footer>

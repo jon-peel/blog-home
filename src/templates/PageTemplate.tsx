@@ -7,14 +7,9 @@ import { PageComponent } from '../types';
 import { DiscussionEmbed } from "disqus-react"
 
 
-
-
-const BlogPost: PageComponent<GatsbyTypes.BlogPostQuery> = ({ data }) => {
+const PageTemplate: PageComponent<GatsbyTypes.PageQuery> = ({ data }) => {
 	const { markdownRemark: post } = data;
-	const disqusConfig = {
-		shortname: process.env.GATSBY_DISQUS_NAME!,
-		config: { identifier: post?.frontmatter?.slug!, title: post?.frontmatter?.title!, url: '' },
-	};
+	
 	const __html = post?.html ?? '';
 
 	return (
@@ -24,14 +19,13 @@ const BlogPost: PageComponent<GatsbyTypes.BlogPostQuery> = ({ data }) => {
 				<h1>{post?.frontmatter?.title}</h1>
 				<Tags tags={post?.frontmatter?.tags} />
 				<section dangerouslySetInnerHTML={{ __html }} />
-				<DiscussionEmbed {...disqusConfig} />
 			</article>
 		</Layout>
 	);
 };
 
 const pageQuery = graphql`
-	query BlogPost($path: String!) {
+	query Page($path: String!) {
 		markdownRemark(frontmatter: { slug: { eq: $path } }) {
 			html
 			frontmatter {
@@ -44,5 +38,5 @@ const pageQuery = graphql`
 	}
 `;
 
-export default BlogPost;
+export default PageTemplate;
 export { pageQuery };
