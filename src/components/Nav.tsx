@@ -29,8 +29,7 @@ const Nav: FC = () => {
 		<nav>
 			{pages.map((page) => (
 				<>
-					<Link to={page.slug as string}>{page.title}</Link>
-					&nbsp;
+					<Link to={page.slug as string}>{page.title}</Link><br />
 				</>
 			))}
 		</nav>

@@ -9,7 +9,7 @@ const Tags: FC<Props> = ({ tags }) =>
 			{tags
 			.filter(t => !!t)
 			.map((t) => (
-				<li key={t}>{t}</li>
+				<li key={t}><small>{t}</small></li>
 			))}
 		</TagList>
 	) : null;

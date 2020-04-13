@@ -6,9 +6,6 @@ import Tags from '../components/Tags';
 import { PageComponent } from '../types';
 import { DiscussionEmbed } from "disqus-react"
 
-
-
-
 const BlogPostTemplate: PageComponent<GatsbyTypes.BlogPostQuery> = ({ data }) => {
 	const { markdownRemark: post } = data;
 	const disqusConfig = {
@@ -17,13 +14,15 @@ const BlogPostTemplate: PageComponent<GatsbyTypes.BlogPostQuery> = ({ data }) =>
 	};
 	const __html = post?.html ?? '';
 
+	const date = new Date(post?.frontmatter!.date!);
 	return (
 		<Layout>
 			<SEO data={data} />
 			<article>
-				<h1>{post?.frontmatter?.title}</h1>
+				<h2>{post?.frontmatter?.title}</h2>
+				<time title={date.toISOString()}>{post?.frontmatter?.date}</time>
 				<Tags tags={post?.frontmatter?.tags} />
-				<section dangerouslySetInnerHTML={{ __html }} />
+				<main dangerouslySetInnerHTML={{ __html }} />
 				<DiscussionEmbed {...disqusConfig} />
 			</article>
 		</Layout>

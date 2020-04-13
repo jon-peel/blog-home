@@ -1,4 +1,13 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, css } from "styled-components";
+
+const grid = css`
+	display: grid;
+	grid: 
+		"side head"
+		"side main"
+		"side foot"
+		/ 284px 890px;
+`;
 
 const GlobalStyle = createGlobalStyle`
   * { margin: 0; padding: 0; }
@@ -12,6 +21,9 @@ const GlobalStyle = createGlobalStyle`
 		font-size: 15px;
   }
 
+	header { grid-area: head }
+	footer { grid-area: foot }
+
 	header, footer {
 		display: flex;
 		justify-content: space-between;
@@ -20,9 +32,10 @@ const GlobalStyle = createGlobalStyle`
 		section {display: flex; justify-content: flex-end; }
 	}
 
+	h1, h2, h3 { margin-bottom: 8px; }
+
 	h3 { 
 		font-size: 22px;
-		margin-bottom: 8px;
 		a { color: black; } 
 	}
 
@@ -31,7 +44,7 @@ const GlobalStyle = createGlobalStyle`
 	footer { background: darkgray; color: black; font-size: smaller; }
 
 	main {
-		max-width: 890px;
+		grid-area: main;
 		margin: 0 auto;
 	}
 
@@ -43,6 +56,10 @@ const GlobalStyle = createGlobalStyle`
 		main {
 			margin: 30px 0;
 		}
+	}
+
+	#gatsby-focus-wrapper { 
+		${grid};
 	}
 `;
 

@@ -9,15 +9,13 @@ import { DiscussionEmbed } from "disqus-react"
 
 const PageTemplate: PageComponent<GatsbyTypes.PageQuery> = ({ data }) => {
 	const { markdownRemark: post } = data;
-	
 	const __html = post?.html ?? '';
 
 	return (
 		<Layout>
 			<SEO data={data} />
 			<article>
-				<h1>{post?.frontmatter?.title}</h1>
-				<Tags tags={post?.frontmatter?.tags} />
+				<h2>{post?.frontmatter?.title}</h2>
 				<section dangerouslySetInnerHTML={{ __html }} />
 			</article>
 		</Layout>
