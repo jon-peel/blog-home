@@ -13,7 +13,6 @@ const Index: PageComponent<GatsbyTypes.IndexQuery> = ({ data }) => {
 	return (
 		<Layout>
 			<SEO />
-			<h2>Recent Posts</h2>
 			<BlogPostIndex>
 				{posts.map(({ node }) => (
 					<PostSummary key={node.id} node={node} />
