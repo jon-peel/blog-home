@@ -12,7 +12,7 @@ const Index: PageComponent<GatsbyTypes.IndexQuery> = ({ data }) => {
 	const posts = edges.filter((post) => !!post.node.frontmatter?.title?.length);
 
 	return (
-		<Layout>
+		<Layout index>
 			<SEO />
 			<BlogPostIndex>
 				<PageHeading>Posts</PageHeading>

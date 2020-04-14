@@ -36,6 +36,7 @@ const SideNav = styled.aside.attrs({
 				<small>a blog by Jonathan Peel</small>
 			</Profile>
 			<nav>
+				<h4><a href="/">Home</a></h4>
 				<PagesNav />
 				<SiteTags />
 				<h4>
