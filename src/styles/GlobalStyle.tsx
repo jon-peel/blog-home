@@ -1,24 +1,42 @@
-import { createGlobalStyle, css } from "styled-components";
+import { createGlobalStyle, css } from 'styled-components';
+import { Theme } from './theme';
 
-type Props = { index?: boolean }
+type Props = { index?: boolean; theme: Theme };
 
 const grid = css`
 	display: -ms-grid;
 	display: grid;
+
 	grid:
-		"side head"
-		"side main"
-		"side foot"
-		/ 284px auto;
+		'head'
+		'main'
+		'side'
+		'foot';
+
+	@media (min-width: ${(p) => p.theme.breakpoints[1]}px) {
+		grid:
+			'side head'
+			'side main'
+			'side foot'
+			/ 184px auto;
+	}
+
+	@media (min-width: ${(p) => p.theme.breakpoints[2]}px) {
+		grid:
+			'side head'
+			'side main'
+			'side foot'
+			/ 284px auto;
+	}
 `;
 
 const GlobalStyle = createGlobalStyle`
   * { margin: 0; padding: 0; }
 	
-  a, h4 { color: #d80b0b; text-decoration: none; }
+  a, h4 { color: ${(p) => p.theme.accent}; text-decoration: none; }
 
 	body {
-		background: #e7e7e7;
+		background: ${(p) => p.theme.background};
 		color: black;		
 		font-family: 'Roboto', sans-serif;
 		font-size: 15px;
@@ -28,11 +46,11 @@ const GlobalStyle = createGlobalStyle`
 	footer { grid-area: foot }
 
 	header {
-		min-height: ${(p: Props) => p.index ? '200px' : '0' };
+		min-height: ${(p: Props) => (p.index ? '200px' : '0')};
 	}
 
 	h1 { 
-		margin: ${(p: Props) => p.index ? '100px auto 0' : 'auto 0'};
+		margin: ${(p: Props) => (p.index ? '100px auto 0' : 'auto 0')};
 		font-size: 45px;
 		text-align: center;
 	}
@@ -46,7 +64,7 @@ const GlobalStyle = createGlobalStyle`
 
 	h4 { text-transform: uppercase; }
 
-	time { color: #4d4d4d; font-size: 15px; }
+	time { color: ${(p) => p.theme.subtle}; font-size: 15px; }
 
 	footer { 
 		color: black;
@@ -64,17 +82,35 @@ const GlobalStyle = createGlobalStyle`
 		margin: 0 auto;
 	}
 
-	aside { nav { & > * { display: block; border-bottom: 1px solid #d80b0b; padding: 10px; } } }
-
-	article { width: 890px; }
+	aside { nav { & > * { display: block; border-bottom: 1px solid ${(p) =>
+		p.theme.accent}; padding: 10px; } } }
 
 	article { 
+		box-sizing: border-box;
 		background: white; 
 		padding: 30px 40px;
 		margin: 0 auto 16px;
 		
 		main {
 			margin: 30px 0;
+		}
+
+		max-width: 100%;
+
+		@media (min-width: ${(p) => p.theme.breakpoints[0]}px) {
+			width: 590px;
+		}
+
+		@media (min-width: ${(p) => p.theme.breakpoints[1]}px) {
+			width: 540px;
+		}
+
+		@media (min-width: ${(p) => p.theme.breakpoints[2]}px) {
+			width: 620px;
+		}
+
+		@media (min-width: ${(p) => p.theme.breakpoints[3]}px) {
+			width: 890px;
 		}
 	}
 

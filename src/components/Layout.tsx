@@ -4,9 +4,10 @@ import { Link } from 'gatsby';
 import SkipLink from '../atoms/SkipLink';
 import GlobalStyle from '../styles/GlobalStyle';
 import SideNav from './SideNav';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import Footer from './footer';
 import HeaderBack from '../styles/HeaderBack';
+import theme from '../styles/theme';
 
 type Props = { index?: boolean }
 
@@ -14,7 +15,7 @@ const Amp = styled.strong.attrs({children: <>&amp;</>})`font-family: 'Lobster Tw
 
 const Layout: FC<Props> = ({ children, index }) => {
 	return (
-		<>
+		<ThemeProvider theme={theme}>
 			<GlobalStyle index={index} />
 			<SkipLink href="#main">Skip to main content</SkipLink>
 			<SideNav />
@@ -24,7 +25,7 @@ const Layout: FC<Props> = ({ children, index }) => {
 			</header>
 			<main id="main">{children}</main>
 			<Footer />
-		</>
+		</ThemeProvider>
 	);
 };
 
