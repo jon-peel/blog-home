@@ -106,6 +106,7 @@ module.exports = {
         fonts: [
 					`Roboto\:ital,400,400i,700`,
 					`source sans pro\:400,400i,700`,
+					`Lobster Two\:700`,
         ],
         display: 'swap'
       }

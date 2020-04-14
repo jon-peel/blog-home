@@ -4,9 +4,9 @@ const grid = css`
 	display: -ms-grid;
 	display: grid;
 	grid:
-		"s1 head"
+		"side head"
 		"side main"
-		"s2 foot"
+		"side foot"
 		/ 284px auto;
 `;
 
