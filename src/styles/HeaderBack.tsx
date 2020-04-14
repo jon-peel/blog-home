@@ -7,7 +7,7 @@ import BackgroundImage from 'gatsby-background-image';
 const Image = styled(BackgroundImage)`
 	background-size: cover;
 	background-position-y: center;
-	position: absolute;
+	position: fixed;
 	width: 100%;
 	height: 400px;
 `;
@@ -45,7 +45,7 @@ const BackgroundSection = () => {
     },
   ]
 	return (
-		<Image fluid={sources as any} className="innerImage" style={{position: 'absolute'}} />
+		<Image fluid={sources as any} className="inner-image" style={{}} />
 	);
 };
 
@@ -53,6 +53,10 @@ const HeaderBack = styled.div.attrs({ children: <BackgroundSection /> })`
 	grid-area: head;
 	position: relative;
 	z-index: -1;
+
+	.inner-image {
+		position: fixed !important;
+	}
 `;
 
 export default HeaderBack;

@@ -73,6 +73,7 @@ const GlobalStyle = createGlobalStyle`
 		flex-direction: column;
 		align-items: center;
 		margin-top: 50px;
+		background: ${(p) => p.theme.background};
 
 		& > * { margin: 18px; }
 	}
