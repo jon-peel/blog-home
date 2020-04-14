@@ -2873,23 +2873,22 @@ type NavQuery = { readonly pages: { readonly edges: ReadonlyArray<{ readonly nod
         & { readonly frontmatter: Maybe<Pick<MarkdownRemarkFrontmatter, 'title' | 'slug'>> }
       ) }> } };
 
-type SiteTagsQueryVariables = {};
-
-
-type SiteTagsQuery = { readonly allMarkdownRemark: { readonly group: ReadonlyArray<Pick<MarkdownRemarkGroupConnection, 'fieldValue'>> } };
-
 type Unnamed_1_QueryVariables = {};
 
 
 type Unnamed_1_Query = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title' | 'description' | 'author'>> }> };
 
-type IndexQueryVariables = {};
+type SiteTagsQueryVariables = {};
 
 
-type IndexQuery = { readonly allMarkdownRemark: { readonly edges: ReadonlyArray<{ readonly node: (
-        Pick<MarkdownRemark, 'excerpt' | 'id' | 'fileAbsolutePath'>
-        & { readonly frontmatter: Maybe<Pick<MarkdownRemarkFrontmatter, 'title' | 'date' | 'slug' | 'tags'>> }
-      ) }> } };
+type SiteTagsQuery = { readonly allMarkdownRemark: { readonly group: ReadonlyArray<Pick<MarkdownRemarkGroupConnection, 'fieldValue'>> } };
+
+type GatsbyImageSharpFluidFragment = Pick<ImageSharpFluid, 'base64' | 'aspectRatio' | 'src' | 'srcSet' | 'sizes'>;
+
+type BackgroundImageQueryVariables = {};
+
+
+type BackgroundImageQuery = { readonly desktop: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }>, readonly mobile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
 
 type BlogPostQueryVariables = {
   path: Scalars['String'];
@@ -2901,12 +2900,10 @@ type BlogPostQuery = { readonly markdownRemark: Maybe<(
     & { readonly frontmatter: Maybe<Pick<MarkdownRemarkFrontmatter, 'date' | 'slug' | 'title' | 'tags'>> }
   )> };
 
-type TagsQueryVariables = {
-  tag: Maybe<Scalars['String']>;
-};
+type IndexQueryVariables = {};
 
 
-type TagsQuery = { readonly allMarkdownRemark: { readonly edges: ReadonlyArray<{ readonly node: (
+type IndexQuery = { readonly allMarkdownRemark: { readonly edges: ReadonlyArray<{ readonly node: (
         Pick<MarkdownRemark, 'excerpt' | 'id' | 'fileAbsolutePath'>
         & { readonly frontmatter: Maybe<Pick<MarkdownRemarkFrontmatter, 'title' | 'date' | 'slug' | 'tags'>> }
       ) }> } };
@@ -2921,6 +2918,16 @@ type PageQuery = { readonly markdownRemark: Maybe<(
     & { readonly frontmatter: Maybe<Pick<MarkdownRemarkFrontmatter, 'date' | 'slug' | 'title' | 'tags'>> }
   )> };
 
+type TagsQueryVariables = {
+  tag: Maybe<Scalars['String']>;
+};
+
+
+type TagsQuery = { readonly allMarkdownRemark: { readonly edges: ReadonlyArray<{ readonly node: (
+        Pick<MarkdownRemark, 'excerpt' | 'id' | 'fileAbsolutePath'>
+        & { readonly frontmatter: Maybe<Pick<MarkdownRemarkFrontmatter, 'title' | 'date' | 'slug' | 'tags'>> }
+      ) }> } };
+
 type GatsbyImageSharpFixedFragment = Pick<ImageSharpFixed, 'base64' | 'width' | 'height' | 'src' | 'srcSet'>;
 
 type GatsbyImageSharpFixed_tracedSVGFragment = Pick<ImageSharpFixed, 'tracedSVG' | 'width' | 'height' | 'src' | 'srcSet'>;
@@ -2932,8 +2939,6 @@ type GatsbyImageSharpFixed_withWebp_tracedSVGFragment = Pick<ImageSharpFixed, 't
 type GatsbyImageSharpFixed_noBase64Fragment = Pick<ImageSharpFixed, 'width' | 'height' | 'src' | 'srcSet'>;
 
 type GatsbyImageSharpFixed_withWebp_noBase64Fragment = Pick<ImageSharpFixed, 'width' | 'height' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp'>;
-
-type GatsbyImageSharpFluidFragment = Pick<ImageSharpFluid, 'base64' | 'aspectRatio' | 'src' | 'srcSet' | 'sizes'>;
 
 type GatsbyImageSharpFluid_tracedSVGFragment = Pick<ImageSharpFluid, 'tracedSVG' | 'aspectRatio' | 'src' | 'srcSet' | 'sizes'>;
 
