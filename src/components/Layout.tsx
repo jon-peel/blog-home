@@ -5,7 +5,7 @@ import SkipLink from '../atoms/SkipLink';
 import GlobalStyle from '../styles/GlobalStyle';
 import SideNav from './SideNav';
 import styled, { ThemeProvider } from 'styled-components';
-import Footer from './footer';
+import Footer from './Footer';
 import HeaderBack from '../styles/HeaderBack';
 import theme from '../styles/theme';
 
