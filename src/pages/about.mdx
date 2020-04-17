@@ -6,7 +6,7 @@ export default PageTemplate;
 
 export const pageQuery = graphql`
 	query About {
-		head: file(relativePath: { eq: "about/head.jpg" }) {
+		head: file(relativePath: { eq: "head.jpg" }) {
 			image: childImageSharp {
 				fluid(maxWidth: 180, quality: 50) {
 					...GatsbyImageSharpFluid
@@ -17,7 +17,6 @@ export const pageQuery = graphql`
 `;
 
 ## About
-
 
 I am a software developer, working fulltime since 2004, working mostly in C#.  
 My current work is mostly in .Net Framework, but do have a few smaller .Net Core projects.

@@ -2541,28 +2541,10 @@ type SitePageConnection_groupArgs = {
 
 type SitePageContext = {
   readonly tag: Maybe<Scalars['String']>;
-  readonly frontmatter: Maybe<SitePageContextFrontmatter>;
 };
 
 type SitePageContextFilterInput = {
   readonly tag: Maybe<StringQueryOperatorInput>;
-  readonly frontmatter: Maybe<SitePageContextFrontmatterFilterInput>;
-};
-
-type SitePageContextFrontmatter = {
-  readonly title: Maybe<Scalars['String']>;
-  readonly date: Maybe<Scalars['Date']>;
-  readonly slug: Maybe<Scalars['String']>;
-  readonly tags: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
-  readonly categories: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
-};
-
-type SitePageContextFrontmatterFilterInput = {
-  readonly title: Maybe<StringQueryOperatorInput>;
-  readonly date: Maybe<DateQueryOperatorInput>;
-  readonly slug: Maybe<StringQueryOperatorInput>;
-  readonly tags: Maybe<StringQueryOperatorInput>;
-  readonly categories: Maybe<StringQueryOperatorInput>;
 };
 
 type SitePageEdge = {
@@ -2665,11 +2647,6 @@ enum SitePageFieldsEnum {
   internal___type = 'internal.type',
   isCreatedByStatefulCreatePages = 'isCreatedByStatefulCreatePages',
   context___tag = 'context.tag',
-  context___frontmatter___title = 'context.frontmatter.title',
-  context___frontmatter___date = 'context.frontmatter.date',
-  context___frontmatter___slug = 'context.frontmatter.slug',
-  context___frontmatter___tags = 'context.frontmatter.tags',
-  context___frontmatter___categories = 'context.frontmatter.categories',
   pluginCreator___id = 'pluginCreator.id',
   pluginCreator___parent___id = 'pluginCreator.parent.id',
   pluginCreator___parent___parent___id = 'pluginCreator.parent.parent.id',
@@ -3244,10 +3221,13 @@ type SiteTagsQueryVariables = {};
 
 type SiteTagsQuery = { readonly allMdx: { readonly group: ReadonlyArray<Pick<MdxGroupConnection, 'fieldValue'>> } };
 
-type Unnamed_1_QueryVariables = {};
+type IndexQueryVariables = {};
 
 
-type Unnamed_1_Query = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title' | 'description' | 'author'>> }> };
+type IndexQuery = { readonly allMdx: { readonly edges: ReadonlyArray<{ readonly node: (
+        Pick<Mdx, 'excerpt' | 'id' | 'fileAbsolutePath'>
+        & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'title' | 'date' | 'slug' | 'tags'>> }
+      ) }> } };
 
 type NavQueryVariables = {};
 
@@ -3257,13 +3237,10 @@ type NavQuery = { readonly pages: { readonly edges: ReadonlyArray<{ readonly nod
         & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'title' | 'slug'>> }
       ) }> } };
 
-type IndexQueryVariables = {};
+type Unnamed_1_QueryVariables = {};
 
 
-type IndexQuery = { readonly allMdx: { readonly edges: ReadonlyArray<{ readonly node: (
-        Pick<Mdx, 'excerpt' | 'id' | 'fileAbsolutePath'>
-        & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'title' | 'date' | 'slug' | 'tags'>> }
-      ) }> } };
+type Unnamed_1_Query = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title' | 'description' | 'author'>> }> };
 
 type BlogPostQueryVariables = {
   path: Scalars['String'];
@@ -3275,11 +3252,6 @@ type BlogPostQuery = { readonly mdx: Maybe<(
     & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'date' | 'slug' | 'title' | 'tags'>> }
   )> };
 
-type BackgroundImageQueryVariables = {};
-
-
-type BackgroundImageQuery = { readonly desktop: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }>, readonly mobile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
-
 type TagsQueryVariables = {
   tag: Maybe<Scalars['String']>;
 };
@@ -3289,6 +3261,11 @@ type TagsQuery = { readonly allMdx: { readonly edges: ReadonlyArray<{ readonly n
         Pick<Mdx, 'excerpt' | 'id' | 'fileAbsolutePath'>
         & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'title' | 'date' | 'slug' | 'tags'>> }
       ) }> } };
+
+type BackgroundImageQueryVariables = {};
+
+
+type BackgroundImageQuery = { readonly desktop: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }>, readonly mobile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
 
 type GatsbyImageSharpFixedFragment = Pick<ImageSharpFixed, 'base64' | 'width' | 'height' | 'src' | 'srcSet'>;
 
@@ -3338,24 +3315,14 @@ type GatsbyImageSharpSizes_noBase64Fragment = Pick<ImageSharpSizes, 'aspectRatio
 
 type GatsbyImageSharpSizes_withWebp_noBase64Fragment = Pick<ImageSharpSizes, 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
 
-type PageQueryVariables = {
-  path: Scalars['String'];
-};
+type AboutQueryVariables = {};
 
 
-type PageQuery = { readonly mdx: Maybe<(
-    Pick<Mdx, 'body'>
-    & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'date' | 'slug' | 'title' | 'tags'>> }
-  )> };
+type AboutQuery = { readonly head: Maybe<{ readonly image: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
 
 type PagesQueryQueryVariables = {};
 
 
 type PagesQueryQuery = { readonly allSitePage: { readonly nodes: ReadonlyArray<Pick<SitePage, 'path'>> } };
-
-type AboutQueryVariables = {};
-
-
-type AboutQuery = { readonly head: Maybe<{ readonly image: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
 
 }
