@@ -37,7 +37,7 @@ const SideNav = styled.aside.attrs({
 			</Profile>
 			<nav>
 				<h4><a href="/">Home</a></h4>
-				<PagesNav />
+				<h4><a href="/about">About</a></h4>
 				<SiteTags />
 				<h4>
 					<a rel="feed" href="/rss.xml" target="_blank">

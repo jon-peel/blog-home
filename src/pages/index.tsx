@@ -8,7 +8,7 @@ import BlogPostIndex from '../atoms/BlogPostIndex';
 import PageHeading from '../styles/PageHeading';
 
 const Index: PageComponent<GatsbyTypes.IndexQuery> = ({ data }) => {
-	const { edges } = data.allMarkdownRemark;
+	const { edges } = data.allMdx;
 	const posts = edges.filter((post) => !!post.node.frontmatter?.title?.length);
 
 	return (
@@ -26,9 +26,9 @@ const Index: PageComponent<GatsbyTypes.IndexQuery> = ({ data }) => {
 
 const pageQuery = graphql`
 	query Index {
-		allMarkdownRemark(
+		allMdx(
+			filter: { frontmatter:{slug: { regex: "//posts//" }} }
 			sort: { order: DESC, fields: [frontmatter___date] }
-			filter: { fileAbsolutePath: { regex: "//posts//" } }
 		) {
 			edges {
 				node {

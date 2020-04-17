@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
+
+const maxWidth = 800;
+
 module.exports = {
 	siteMetadata: {
 		title: `Jonathan Peel`,
@@ -24,8 +27,8 @@ module.exports = {
 			`,
 				feeds: [
 					{
-						serialize: ({ query: { site, allMarkdownRemark } }) => {
-							return allMarkdownRemark.edges.map((edge) => {
+						serialize: ({ query: { site, allMdx } }) => {
+							return allMdx.edges.map((edge) => {
 								return Object.assign({}, edge.node.frontmatter, {
 									description: edge.node.excerpt,
 									date: edge.node.frontmatter.date,
@@ -38,7 +41,7 @@ module.exports = {
 						},
 						query: `
 						{
-							allMarkdownRemark(
+							allMdx(
 								filter: { fileAbsolutePath: { regex: "//posts//" } },
 								sort: { order: DESC, fields: [frontmatter___date] },
 							) {
@@ -68,26 +71,35 @@ module.exports = {
 		`gatsby-plugin-typescript`,
 		`gatsby-plugin-catch-links`,
 		`gatsby-plugin-react-helmet`,
+		`gatsby-transformer-sharp`,
+		`gatsby-plugin-sharp`,
+		`gatsby-remark-images`,
 		{
-			resolve: `gatsby-source-filesystem`,
+			resolve: `gatsby-plugin-mdx`,
 			options: {
-				name: `content`,
-				path: `${__dirname}/src/content`,
-			},
-		},
-		{
-			resolve: `gatsby-source-filesystem`,
-			options: {
-				name: `images`,
-				path: `${__dirname}/src/images`,
+				gatsbyRemarkPlugins: [
+					{
+						resolve: `gatsby-remark-images`,
+						options: {
+							maxWidth,
+						},
+					},
+				],
 			},
 		},
 		{
 			resolve: 'gatsby-transformer-remark',
-			options: { plugins: [] },
+			options: {
+				plugins: [
+					{
+						resolve: `gatsby-remark-images`,
+						options: {
+							maxWidth,
+						},
+					},
+				],
+			},
 		},
-		`gatsby-transformer-sharp`,
-		`gatsby-plugin-sharp`,
 		{
 			resolve: `gatsby-plugin-manifest`,
 			options: {
@@ -101,16 +113,30 @@ module.exports = {
 			},
 		},
 		{
-      resolve: `gatsby-plugin-google-fonts`,
-      options: {
-        fonts: [
+			resolve: `gatsby-plugin-google-fonts`,
+			options: {
+				fonts: [
 					`Roboto\:ital,400,400i,700`,
 					`source sans pro\:400,400i,700`,
 					`Lobster Two\:700`,
-        ],
-        display: 'swap'
-      }
-    },
+				],
+				display: 'swap',
+			},
+		},
+		{
+			resolve: `gatsby-source-filesystem`,
+			options: {
+				name: `pages`,
+				path: `${__dirname}/src/pages`,
+			},
+		},
+		{
+			resolve: `gatsby-source-filesystem`,
+			options: {
+				name: `images`,
+				path: `${__dirname}/src/images`,
+			},
+		},
 
 		// this (optional) plugin enables Progressive Web App + Offline functionality
 		// To learn more, visit: https://gatsby.dev/offline

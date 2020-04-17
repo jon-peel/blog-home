@@ -3,7 +3,7 @@ import { Link } from 'gatsby';
 import Tags from './Tags';
 import ReadMore from '../styles/ReadMore';
 
-type Node = GatsbyTypes.IndexQuery['allMarkdownRemark']['edges'][0]['node'];
+type Node = GatsbyTypes.IndexQuery['allMdx']['edges'][0]['node'];
 
 type Props = { node: Node };
 

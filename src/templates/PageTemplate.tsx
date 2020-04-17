@@ -1,20 +1,29 @@
 import React, { FC } from 'react';
-import { graphql } from 'gatsby';
+import { graphql, Link } from 'gatsby';
 import SEO from '../components/SEO';
 import Layout from '../components/Layout';
 import { PageComponent } from '../types';
 
-const PageTemplate: PageComponent<GatsbyTypes.PageQuery> = ({ data }) => {
-	const { markdownRemark: post } = data;
-	const __html = post?.html ?? '';
+import { MDXProvider } from "@mdx-js/react";
+import { MDXRenderer } from "gatsby-plugin-mdx";
 
+const shortcodes = { Link }
+
+const PageTemplate: FC = ({ children }) => {
+	// const { mdx } = data;
+	// const __html = post?.html ?? '';
+	debugger;
 	return (
 		<Layout>
-			<SEO data={data} />
+			{/* <SEO data={mdx as any} /> */}
 			<main>
 			<article>
-				<h2>{post?.frontmatter?.title}</h2>
-				<main dangerouslySetInnerHTML={{ __html }} />
+				{/* <h2>{mdx?.frontmatter?.title}</h2> */}
+				{/* <MDXProvider components={shortcodes}>
+        	<MDXRenderer>{mdx!.body}</MDXRenderer>
+      	</MDXProvider> */}
+				{/* <main dangerouslySetInnerHTML={{ __html }} /> */}
+			{children}
 			</article>
 			</main>
 		</Layout>
@@ -23,8 +32,8 @@ const PageTemplate: PageComponent<GatsbyTypes.PageQuery> = ({ data }) => {
 
 const pageQuery = graphql`
 	query Page($path: String!) {
-		markdownRemark(frontmatter: { slug: { eq: $path } }) {
-			html
+		mdx(frontmatter: { slug: { eq: $path } }) {
+			body
 			frontmatter {
 				date(formatString: "MMMM DD, YYYY")
 				slug

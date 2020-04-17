@@ -5,7 +5,7 @@ import Tags from './Tags';
 
 const tagQuery = graphql`
 query SiteTags {
-	allMarkdownRemark(limit: 2000) {
+	allMdx(limit: 2000) {
 		group(field: frontmatter___tags) {
 			fieldValue
 		}
@@ -14,7 +14,7 @@ query SiteTags {
 `
 
 const SiteTags = () => {
-	const tags = useStaticQuery<GatsbyTypes.SiteTagsQuery>(tagQuery).allMarkdownRemark.group.map(t => t.fieldValue);
+	const tags = useStaticQuery<GatsbyTypes.SiteTagsQuery>(tagQuery).allMdx.group.map(t => t.fieldValue);
 	return (<section><h4>Tags</h4><Tags tags={tags} /></section>);
 }
 

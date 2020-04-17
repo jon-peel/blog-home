@@ -22,7 +22,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
 
 	const result = await graphql(`
 		{
-			postsRemark: allMarkdownRemark(
+			postsRemark: allMdx(
 				sort: { order: DESC, fields: [frontmatter___date] }
 				limit: 1000
 			) {
@@ -34,7 +34,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
 					}
 				}
 			}
-			tagsGroup: allMarkdownRemark(limit: 2000) {
+			tagsGroup: allMdx(limit: 2000) {
         group(field: frontmatter___tags) {
           fieldValue
         }
@@ -48,7 +48,8 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
 	}
 
 	result.data.postsRemark.edges.forEach(({ node }) => {
-		const component = node.frontmatter.slug.startsWith('/posts/') ? BlogPostTemplate : PageTemplate;
+		const component = node.frontmatter.slug && node.frontmatter.slug.startsWith('/posts/') && BlogPostTemplate; // : PageTemplate;
+		if (component)
 		createPage({
 			path: node.frontmatter.slug,
 			component,
@@ -67,3 +68,12 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
 	});
 	
 };
+
+
+exports.onCreateWebpackConfig = ({ actions }) => {
+  actions.setWebpackConfig({
+    resolve: {
+      modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+    },
+  })
+}

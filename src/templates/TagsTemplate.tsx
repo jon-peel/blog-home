@@ -14,7 +14,7 @@ type Props = {pageContext: { tag: string }};
 
 const TagsTemplate: PageComponent<GatsbyTypes.TagsQuery, Props> = ({ pageContext, data }) => {
   const { tag } = pageContext
-  const { edges } = data.allMarkdownRemark
+  const { edges } = data.allMdx
   // const tagHeader = `${totalCount} post${
   //   totalCount === 1 ? "" : "s"
   // } tagged with "${tag}"`
@@ -34,7 +34,7 @@ const TagsTemplate: PageComponent<GatsbyTypes.TagsQuery, Props> = ({ pageContext
 
 const pageQuery = graphql`
   query Tags($tag: String) {
-    allMarkdownRemark(
+    allMdx(
       limit: 2000
       sort: { fields: [frontmatter___date], order: DESC }
       filter: { frontmatter: { tags: { in: [$tag] } } }

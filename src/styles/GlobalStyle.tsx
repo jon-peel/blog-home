@@ -33,6 +33,8 @@ const grid = css`
 const GlobalStyle = createGlobalStyle`
   * { margin: 0; padding: 0; }
 	
+	p { margin: 0.5em 0 1em }
+
   a, h4 { color: ${(p) => p.theme.accent}; text-decoration: none; }
 
 	body {
