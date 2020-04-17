@@ -13,7 +13,7 @@ const LicencImage = styled.img.attrs({alt,src})`
 `;
 
 const Licence = () => (
-	<a rel="license" href={href}>
+	<a rel="license" href={href} title={alt}>
 		<LicencImage />
 	</a>
 );

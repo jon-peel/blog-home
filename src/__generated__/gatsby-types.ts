@@ -3239,14 +3239,6 @@ type StringQueryOperatorInput = {
   readonly glob: Maybe<Scalars['String']>;
 };
 
-type NavQueryVariables = {};
-
-
-type NavQuery = { readonly pages: { readonly edges: ReadonlyArray<{ readonly node: (
-        Pick<Mdx, 'id'>
-        & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'title' | 'slug'>> }
-      ) }> } };
-
 type SiteTagsQueryVariables = {};
 
 
@@ -3256,6 +3248,14 @@ type Unnamed_1_QueryVariables = {};
 
 
 type Unnamed_1_Query = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title' | 'description' | 'author'>> }> };
+
+type NavQueryVariables = {};
+
+
+type NavQuery = { readonly pages: { readonly edges: ReadonlyArray<{ readonly node: (
+        Pick<Mdx, 'id'>
+        & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'title' | 'slug'>> }
+      ) }> } };
 
 type IndexQueryVariables = {};
 
@@ -3280,15 +3280,15 @@ type BackgroundImageQueryVariables = {};
 
 type BackgroundImageQuery = { readonly desktop: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }>, readonly mobile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
 
-type PageQueryVariables = {
-  path: Scalars['String'];
+type TagsQueryVariables = {
+  tag: Maybe<Scalars['String']>;
 };
 
 
-type PageQuery = { readonly mdx: Maybe<(
-    Pick<Mdx, 'body'>
-    & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'date' | 'slug' | 'title' | 'tags'>> }
-  )> };
+type TagsQuery = { readonly allMdx: { readonly edges: ReadonlyArray<{ readonly node: (
+        Pick<Mdx, 'excerpt' | 'id' | 'fileAbsolutePath'>
+        & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'title' | 'date' | 'slug' | 'tags'>> }
+      ) }> } };
 
 type GatsbyImageSharpFixedFragment = Pick<ImageSharpFixed, 'base64' | 'width' | 'height' | 'src' | 'srcSet'>;
 
@@ -3338,24 +3338,24 @@ type GatsbyImageSharpSizes_noBase64Fragment = Pick<ImageSharpSizes, 'aspectRatio
 
 type GatsbyImageSharpSizes_withWebp_noBase64Fragment = Pick<ImageSharpSizes, 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
 
-type TagsQueryVariables = {
-  tag: Maybe<Scalars['String']>;
+type PageQueryVariables = {
+  path: Scalars['String'];
 };
 
 
-type TagsQuery = { readonly allMdx: { readonly edges: ReadonlyArray<{ readonly node: (
-        Pick<Mdx, 'excerpt' | 'id' | 'fileAbsolutePath'>
-        & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'title' | 'date' | 'slug' | 'tags'>> }
-      ) }> } };
-
-type AboutQueryVariables = {};
-
-
-type AboutQuery = { readonly head: Maybe<{ readonly image: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
+type PageQuery = { readonly mdx: Maybe<(
+    Pick<Mdx, 'body'>
+    & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'date' | 'slug' | 'title' | 'tags'>> }
+  )> };
 
 type PagesQueryQueryVariables = {};
 
 
 type PagesQueryQuery = { readonly allSitePage: { readonly nodes: ReadonlyArray<Pick<SitePage, 'path'>> } };
+
+type AboutQueryVariables = {};
+
+
+type AboutQuery = { readonly head: Maybe<{ readonly image: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
 
 }

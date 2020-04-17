@@ -3,7 +3,7 @@ import SiteTags from './SiteTags';
 import PagesNav from './PagesNav';
 import styled from 'styled-components';
 
-const Profile = styled.p`
+const Profile = styled.h5`
 	text-align: center;
 	padding: 20px;
 	background: ${(p: { top?: boolean }) => (p.top ? '#e7e7e7' : 'inherrit')};
