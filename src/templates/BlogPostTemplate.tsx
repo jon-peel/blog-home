@@ -42,7 +42,7 @@ const pageQuery = graphql`
 		mdx(frontmatter: { slug: { eq: $path } }) {
 			body
 			frontmatter {
-				date(formatString: "MMMM DD, YYYY")
+				date(formatString: "DD MMMM YYYY")
 				slug
 				title
 				tags

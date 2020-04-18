@@ -3221,14 +3221,6 @@ type SiteTagsQueryVariables = {};
 
 type SiteTagsQuery = { readonly allMdx: { readonly group: ReadonlyArray<Pick<MdxGroupConnection, 'fieldValue'>> } };
 
-type IndexQueryVariables = {};
-
-
-type IndexQuery = { readonly allMdx: { readonly edges: ReadonlyArray<{ readonly node: (
-        Pick<Mdx, 'excerpt' | 'id' | 'fileAbsolutePath'>
-        & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'title' | 'date' | 'slug' | 'tags'>> }
-      ) }> } };
-
 type NavQueryVariables = {};
 
 
@@ -3236,6 +3228,11 @@ type NavQuery = { readonly pages: { readonly edges: ReadonlyArray<{ readonly nod
         Pick<Mdx, 'id'>
         & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'title' | 'slug'>> }
       ) }> } };
+
+type BackgroundImageQueryVariables = {};
+
+
+type BackgroundImageQuery = { readonly desktop: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }>, readonly mobile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
 
 type Unnamed_1_QueryVariables = {};
 
@@ -3252,6 +3249,14 @@ type BlogPostQuery = { readonly mdx: Maybe<(
     & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'date' | 'slug' | 'title' | 'tags'>> }
   )> };
 
+type IndexQueryVariables = {};
+
+
+type IndexQuery = { readonly allMdx: { readonly edges: ReadonlyArray<{ readonly node: (
+        Pick<Mdx, 'excerpt' | 'id' | 'fileAbsolutePath'>
+        & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'title' | 'date' | 'slug' | 'tags'>> }
+      ) }> } };
+
 type TagsQueryVariables = {
   tag: Maybe<Scalars['String']>;
 };
@@ -3262,10 +3267,10 @@ type TagsQuery = { readonly allMdx: { readonly edges: ReadonlyArray<{ readonly n
         & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'title' | 'date' | 'slug' | 'tags'>> }
       ) }> } };
 
-type BackgroundImageQueryVariables = {};
+type PagesQueryQueryVariables = {};
 
 
-type BackgroundImageQuery = { readonly desktop: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }>, readonly mobile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
+type PagesQueryQuery = { readonly allSitePage: { readonly nodes: ReadonlyArray<Pick<SitePage, 'path'>> } };
 
 type GatsbyImageSharpFixedFragment = Pick<ImageSharpFixed, 'base64' | 'width' | 'height' | 'src' | 'srcSet'>;
 
@@ -3319,10 +3324,5 @@ type AboutQueryVariables = {};
 
 
 type AboutQuery = { readonly head: Maybe<{ readonly image: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
-
-type PagesQueryQueryVariables = {};
-
-
-type PagesQueryQuery = { readonly allSitePage: { readonly nodes: ReadonlyArray<Pick<SitePage, 'path'>> } };
 
 }
