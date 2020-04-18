@@ -10,61 +10,6 @@ module.exports = {
 		siteUrl: `https://priceless-neumann-8e4227.netlify.com/`,
 	},
 	plugins: [
-		{
-			resolve: `gatsby-plugin-feed`,
-			options: {
-				query: `
-				{
-					site {
-						siteMetadata {
-							title
-							description
-							siteUrl
-							site_url: siteUrl
-						}
-					}
-				}
-			`,
-				feeds: [
-					{
-						serialize: ({ query: { site, allMdx } }) => {
-							return allMdx.edges.map((edge) => {
-								return Object.assign({}, edge.node.frontmatter, {
-									description: edge.node.excerpt,
-									date: edge.node.frontmatter.date,
-									url: site.siteMetadata.siteUrl + edge.node.fields.slug,
-									guid: site.siteMetadata.siteUrl + edge.node.fields.slug,
-									custom_elements: [{ 'content:encoded': edge.node.html }],
-									copyright: '2020, Jonathan Peel',
-								});
-							});
-						},
-						query: `
-						{
-							allMdx(
-								filter: { fileAbsolutePath: { regex: "//posts//" } },
-								sort: { order: DESC, fields: [frontmatter___date] },
-							) {
-								edges {
-									node {
-										excerpt
-										html
-										fields { slug }
-										frontmatter {
-											title
-											date
-										}
-									}
-								}
-							}
-						}
-					`,
-						output: '/rss.xml',
-						title: "Jonathan Peel's RSS Feed",
-					},
-				],
-			},
-		},
 		`gatsby-plugin-netlify`,
 		`gatsby-plugin-styled-components`,
 		`gatsby-plugin-typegen`,
@@ -137,9 +82,61 @@ module.exports = {
 				path: `${__dirname}/src/images`,
 			},
 		},
-
-		// this (optional) plugin enables Progressive Web App + Offline functionality
-		// To learn more, visit: https://gatsby.dev/offline
-		// `gatsby-plugin-offline`,
+		{
+			resolve: `gatsby-plugin-feed`,
+			options: {
+				query: `
+				{
+					site {
+						siteMetadata {
+							title
+							description
+							siteUrl
+							site_url: siteUrl
+						}
+					}
+				}
+			`,
+				feeds: [
+					{
+						serialize: ({ query: { site, allMdx } }) => {
+							return allMdx.edges.map(({node}) => {
+								const {excerpt: description, frontmatter} = node;
+								const {date, path} = frontmatter;
+								const url = site.siteMetadata.siteUrl + path;
+								return Object.assign({}, frontmatter, {
+									description,
+									date,
+									url,
+									guid: url,
+									copyright: '2020, Jonathan Peel',
+								});
+							});
+						},
+						query: `
+						{
+							allMdx(
+								sort: { order: DESC, fields: [frontmatter___date] },
+							) {
+								edges {
+									node {
+										excerpt
+										frontmatter {
+											title
+											date
+											path
+										}
+									}
+								}
+							}
+						}
+					`,
+						output: '/rss.xml',
+						title: "Jonathan Peel's RSS Feed",
+					},
+				],
+			},
+		},
 	],
+
 };

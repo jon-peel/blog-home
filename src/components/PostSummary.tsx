@@ -8,7 +8,7 @@ type Node = GatsbyTypes.IndexQuery['allMdx']['edges'][0]['node'];
 type Props = { node: Node };
 
 const PostSummary: FC<Props> = ({ node }) => {
-	const to = node.frontmatter?.slug ?? '/';
+	const to = node.frontmatter?.path ?? '/';
 	const date = new Date(node.frontmatter!.date!);
 	return (
 		<article>

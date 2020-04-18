@@ -11,7 +11,7 @@ const query = graphql`
 					id
 					frontmatter {
 						title
-						slug
+						path
 					}
 				}
 			}
@@ -29,7 +29,7 @@ const PagesNav: FC = () => {
 		<>
 			{pages.map((page) => (
 				<>
-					<h4><Link to={page!.slug as string}>{page!.title}</Link></h4>
+					<h4><Link to={page!.path as string}>{page!.title}</Link></h4>
 				</>
 			))}
 		</>

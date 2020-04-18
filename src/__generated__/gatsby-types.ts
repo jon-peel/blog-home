@@ -683,10 +683,9 @@ enum FileFieldsEnum {
   childMdx___rawBody = 'childMdx.rawBody',
   childMdx___fileAbsolutePath = 'childMdx.fileAbsolutePath',
   childMdx___frontmatter___title = 'childMdx.frontmatter.title',
-  childMdx___frontmatter___date = 'childMdx.frontmatter.date',
-  childMdx___frontmatter___slug = 'childMdx.frontmatter.slug',
+  childMdx___frontmatter___path = 'childMdx.frontmatter.path',
   childMdx___frontmatter___tags = 'childMdx.frontmatter.tags',
-  childMdx___frontmatter___categories = 'childMdx.frontmatter.categories',
+  childMdx___frontmatter___date = 'childMdx.frontmatter.date',
   childMdx___body = 'childMdx.body',
   childMdx___excerpt = 'childMdx.excerpt',
   childMdx___headings = 'childMdx.headings',
@@ -1662,10 +1661,9 @@ enum MdxFieldsEnum {
   rawBody = 'rawBody',
   fileAbsolutePath = 'fileAbsolutePath',
   frontmatter___title = 'frontmatter.title',
-  frontmatter___date = 'frontmatter.date',
-  frontmatter___slug = 'frontmatter.slug',
+  frontmatter___path = 'frontmatter.path',
   frontmatter___tags = 'frontmatter.tags',
-  frontmatter___categories = 'frontmatter.categories',
+  frontmatter___date = 'frontmatter.date',
   body = 'body',
   excerpt = 'excerpt',
   headings = 'headings',
@@ -1786,10 +1784,9 @@ type MdxFilterInput = {
 
 type MdxFrontmatter = {
   readonly title: Scalars['String'];
-  readonly date: Maybe<Scalars['Date']>;
-  readonly slug: Maybe<Scalars['String']>;
+  readonly path: Maybe<Scalars['String']>;
   readonly tags: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
-  readonly categories: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
+  readonly date: Maybe<Scalars['Date']>;
 };
 
 
@@ -1802,10 +1799,9 @@ type MdxFrontmatter_dateArgs = {
 
 type MdxFrontmatterFilterInput = {
   readonly title: Maybe<StringQueryOperatorInput>;
-  readonly date: Maybe<DateQueryOperatorInput>;
-  readonly slug: Maybe<StringQueryOperatorInput>;
+  readonly path: Maybe<StringQueryOperatorInput>;
   readonly tags: Maybe<StringQueryOperatorInput>;
-  readonly categories: Maybe<StringQueryOperatorInput>;
+  readonly date: Maybe<DateQueryOperatorInput>;
 };
 
 type MdxGroupConnection = {
@@ -2045,8 +2041,6 @@ type Query_allSitePageArgs = {
 type Query_siteArgs = {
   buildTime: Maybe<DateQueryOperatorInput>;
   siteMetadata: Maybe<SiteSiteMetadataFilterInput>;
-  port: Maybe<IntQueryOperatorInput>;
-  host: Maybe<StringQueryOperatorInput>;
   polyfill: Maybe<BooleanQueryOperatorInput>;
   pathPrefix: Maybe<StringQueryOperatorInput>;
   id: Maybe<StringQueryOperatorInput>;
@@ -2181,8 +2175,6 @@ type Query_allSitePluginArgs = {
 type Site = Node & {
   readonly buildTime: Maybe<Scalars['Date']>;
   readonly siteMetadata: Maybe<SiteSiteMetadata>;
-  readonly port: Maybe<Scalars['Int']>;
-  readonly host: Maybe<Scalars['String']>;
   readonly polyfill: Maybe<Scalars['Boolean']>;
   readonly pathPrefix: Maybe<Scalars['String']>;
   readonly id: Scalars['ID'];
@@ -2387,8 +2379,6 @@ enum SiteFieldsEnum {
   siteMetadata___description = 'siteMetadata.description',
   siteMetadata___author = 'siteMetadata.author',
   siteMetadata___siteUrl = 'siteMetadata.siteUrl',
-  port = 'port',
-  host = 'host',
   polyfill = 'polyfill',
   pathPrefix = 'pathPrefix',
   id = 'id',
@@ -2482,8 +2472,6 @@ enum SiteFieldsEnum {
 type SiteFilterInput = {
   readonly buildTime: Maybe<DateQueryOperatorInput>;
   readonly siteMetadata: Maybe<SiteSiteMetadataFilterInput>;
-  readonly port: Maybe<IntQueryOperatorInput>;
-  readonly host: Maybe<StringQueryOperatorInput>;
   readonly polyfill: Maybe<BooleanQueryOperatorInput>;
   readonly pathPrefix: Maybe<StringQueryOperatorInput>;
   readonly id: Maybe<StringQueryOperatorInput>;
@@ -2695,11 +2683,6 @@ enum SitePageFieldsEnum {
   pluginCreator___pluginOptions___plugins___version = 'pluginCreator.pluginOptions.plugins.version',
   pluginCreator___pluginOptions___plugins___browserAPIs = 'pluginCreator.pluginOptions.plugins.browserAPIs',
   pluginCreator___pluginOptions___plugins___pluginFilepath = 'pluginCreator.pluginOptions.plugins.pluginFilepath',
-  pluginCreator___pluginOptions___query = 'pluginCreator.pluginOptions.query',
-  pluginCreator___pluginOptions___feeds = 'pluginCreator.pluginOptions.feeds',
-  pluginCreator___pluginOptions___feeds___query = 'pluginCreator.pluginOptions.feeds.query',
-  pluginCreator___pluginOptions___feeds___output = 'pluginCreator.pluginOptions.feeds.output',
-  pluginCreator___pluginOptions___feeds___title = 'pluginCreator.pluginOptions.feeds.title',
   pluginCreator___pluginOptions___gatsbyRemarkPlugins = 'pluginCreator.pluginOptions.gatsbyRemarkPlugins',
   pluginCreator___pluginOptions___gatsbyRemarkPlugins___resolve = 'pluginCreator.pluginOptions.gatsbyRemarkPlugins.resolve',
   pluginCreator___pluginOptions___maxWidth = 'pluginCreator.pluginOptions.maxWidth',
@@ -2712,6 +2695,11 @@ enum SitePageFieldsEnum {
   pluginCreator___pluginOptions___icon = 'pluginCreator.pluginOptions.icon',
   pluginCreator___pluginOptions___fonts = 'pluginCreator.pluginOptions.fonts',
   pluginCreator___pluginOptions___path = 'pluginCreator.pluginOptions.path',
+  pluginCreator___pluginOptions___query = 'pluginCreator.pluginOptions.query',
+  pluginCreator___pluginOptions___feeds = 'pluginCreator.pluginOptions.feeds',
+  pluginCreator___pluginOptions___feeds___query = 'pluginCreator.pluginOptions.feeds.query',
+  pluginCreator___pluginOptions___feeds___output = 'pluginCreator.pluginOptions.feeds.output',
+  pluginCreator___pluginOptions___feeds___title = 'pluginCreator.pluginOptions.feeds.title',
   pluginCreator___pluginOptions___pathCheck = 'pluginCreator.pluginOptions.pathCheck',
   pluginCreator___nodeAPIs = 'pluginCreator.nodeAPIs',
   pluginCreator___browserAPIs = 'pluginCreator.browserAPIs',
@@ -2908,11 +2896,6 @@ enum SitePluginFieldsEnum {
   pluginOptions___plugins___pluginOptions___maxWidth = 'pluginOptions.plugins.pluginOptions.maxWidth',
   pluginOptions___plugins___browserAPIs = 'pluginOptions.plugins.browserAPIs',
   pluginOptions___plugins___pluginFilepath = 'pluginOptions.plugins.pluginFilepath',
-  pluginOptions___query = 'pluginOptions.query',
-  pluginOptions___feeds = 'pluginOptions.feeds',
-  pluginOptions___feeds___query = 'pluginOptions.feeds.query',
-  pluginOptions___feeds___output = 'pluginOptions.feeds.output',
-  pluginOptions___feeds___title = 'pluginOptions.feeds.title',
   pluginOptions___gatsbyRemarkPlugins = 'pluginOptions.gatsbyRemarkPlugins',
   pluginOptions___gatsbyRemarkPlugins___resolve = 'pluginOptions.gatsbyRemarkPlugins.resolve',
   pluginOptions___gatsbyRemarkPlugins___options___maxWidth = 'pluginOptions.gatsbyRemarkPlugins.options.maxWidth',
@@ -2937,6 +2920,11 @@ enum SitePluginFieldsEnum {
   pluginOptions___icon = 'pluginOptions.icon',
   pluginOptions___fonts = 'pluginOptions.fonts',
   pluginOptions___path = 'pluginOptions.path',
+  pluginOptions___query = 'pluginOptions.query',
+  pluginOptions___feeds = 'pluginOptions.feeds',
+  pluginOptions___feeds___query = 'pluginOptions.feeds.query',
+  pluginOptions___feeds___output = 'pluginOptions.feeds.output',
+  pluginOptions___feeds___title = 'pluginOptions.feeds.title',
   pluginOptions___pathCheck = 'pluginOptions.pathCheck',
   nodeAPIs = 'nodeAPIs',
   browserAPIs = 'browserAPIs',
@@ -3052,8 +3040,6 @@ type SitePluginPackageJsonPeerDependenciesFilterListInput = {
 
 type SitePluginPluginOptions = {
   readonly plugins: Maybe<ReadonlyArray<Maybe<SitePluginPluginOptionsPlugins>>>;
-  readonly query: Maybe<Scalars['String']>;
-  readonly feeds: Maybe<ReadonlyArray<Maybe<SitePluginPluginOptionsFeeds>>>;
   readonly gatsbyRemarkPlugins: Maybe<ReadonlyArray<Maybe<SitePluginPluginOptionsGatsbyRemarkPlugins>>>;
   readonly maxWidth: Maybe<Scalars['Int']>;
   readonly name: Maybe<Scalars['String']>;
@@ -3065,6 +3051,8 @@ type SitePluginPluginOptions = {
   readonly icon: Maybe<Scalars['String']>;
   readonly fonts: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
   readonly path: Maybe<Scalars['String']>;
+  readonly query: Maybe<Scalars['String']>;
+  readonly feeds: Maybe<ReadonlyArray<Maybe<SitePluginPluginOptionsFeeds>>>;
   readonly pathCheck: Maybe<Scalars['Boolean']>;
 };
 
@@ -3086,8 +3074,6 @@ type SitePluginPluginOptionsFeedsFilterListInput = {
 
 type SitePluginPluginOptionsFilterInput = {
   readonly plugins: Maybe<SitePluginPluginOptionsPluginsFilterListInput>;
-  readonly query: Maybe<StringQueryOperatorInput>;
-  readonly feeds: Maybe<SitePluginPluginOptionsFeedsFilterListInput>;
   readonly gatsbyRemarkPlugins: Maybe<SitePluginPluginOptionsGatsbyRemarkPluginsFilterListInput>;
   readonly maxWidth: Maybe<IntQueryOperatorInput>;
   readonly name: Maybe<StringQueryOperatorInput>;
@@ -3099,6 +3085,8 @@ type SitePluginPluginOptionsFilterInput = {
   readonly icon: Maybe<StringQueryOperatorInput>;
   readonly fonts: Maybe<StringQueryOperatorInput>;
   readonly path: Maybe<StringQueryOperatorInput>;
+  readonly query: Maybe<StringQueryOperatorInput>;
+  readonly feeds: Maybe<SitePluginPluginOptionsFeedsFilterListInput>;
   readonly pathCheck: Maybe<BooleanQueryOperatorInput>;
 };
 
@@ -3216,28 +3204,36 @@ type StringQueryOperatorInput = {
   readonly glob: Maybe<Scalars['String']>;
 };
 
-type SiteTagsQueryVariables = {};
+type BackgroundImageQueryVariables = {};
 
 
-type SiteTagsQuery = { readonly allMdx: { readonly group: ReadonlyArray<Pick<MdxGroupConnection, 'fieldValue'>> } };
+type BackgroundImageQuery = { readonly desktop: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }>, readonly mobile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
 
 type NavQueryVariables = {};
 
 
 type NavQuery = { readonly pages: { readonly edges: ReadonlyArray<{ readonly node: (
         Pick<Mdx, 'id'>
-        & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'title' | 'slug'>> }
+        & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'title' | 'path'>> }
       ) }> } };
 
-type BackgroundImageQueryVariables = {};
+type SiteTagsQueryVariables = {};
 
 
-type BackgroundImageQuery = { readonly desktop: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }>, readonly mobile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
+type SiteTagsQuery = { readonly allMdx: { readonly group: ReadonlyArray<Pick<MdxGroupConnection, 'fieldValue'>> } };
 
 type Unnamed_1_QueryVariables = {};
 
 
 type Unnamed_1_Query = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title' | 'description' | 'author'>> }> };
+
+type IndexQueryVariables = {};
+
+
+type IndexQuery = { readonly allMdx: { readonly edges: ReadonlyArray<{ readonly node: (
+        Pick<Mdx, 'excerpt' | 'id' | 'fileAbsolutePath'>
+        & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'title' | 'date' | 'path' | 'tags'>> }
+      ) }> } };
 
 type BlogPostQueryVariables = {
   path: Scalars['String'];
@@ -3246,31 +3242,8 @@ type BlogPostQueryVariables = {
 
 type BlogPostQuery = { readonly mdx: Maybe<(
     Pick<Mdx, 'body'>
-    & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'date' | 'slug' | 'title' | 'tags'>> }
+    & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'date' | 'path' | 'title' | 'tags'>> }
   )> };
-
-type IndexQueryVariables = {};
-
-
-type IndexQuery = { readonly allMdx: { readonly edges: ReadonlyArray<{ readonly node: (
-        Pick<Mdx, 'excerpt' | 'id' | 'fileAbsolutePath'>
-        & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'title' | 'date' | 'slug' | 'tags'>> }
-      ) }> } };
-
-type TagsQueryVariables = {
-  tag: Maybe<Scalars['String']>;
-};
-
-
-type TagsQuery = { readonly allMdx: { readonly edges: ReadonlyArray<{ readonly node: (
-        Pick<Mdx, 'excerpt' | 'id' | 'fileAbsolutePath'>
-        & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'title' | 'date' | 'slug' | 'tags'>> }
-      ) }> } };
-
-type PagesQueryQueryVariables = {};
-
-
-type PagesQueryQuery = { readonly allSitePage: { readonly nodes: ReadonlyArray<Pick<SitePage, 'path'>> } };
 
 type GatsbyImageSharpFixedFragment = Pick<ImageSharpFixed, 'base64' | 'width' | 'height' | 'src' | 'srcSet'>;
 
@@ -3319,6 +3292,16 @@ type GatsbyImageSharpSizes_withWebp_tracedSVGFragment = Pick<ImageSharpSizes, 't
 type GatsbyImageSharpSizes_noBase64Fragment = Pick<ImageSharpSizes, 'aspectRatio' | 'src' | 'srcSet' | 'sizes'>;
 
 type GatsbyImageSharpSizes_withWebp_noBase64Fragment = Pick<ImageSharpSizes, 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
+
+type TagsQueryVariables = {
+  tag: Maybe<Scalars['String']>;
+};
+
+
+type TagsQuery = { readonly allMdx: { readonly edges: ReadonlyArray<{ readonly node: (
+        Pick<Mdx, 'excerpt' | 'id' | 'fileAbsolutePath'>
+        & { readonly frontmatter: Maybe<Pick<MdxFrontmatter, 'title' | 'date' | 'path' | 'tags'>> }
+      ) }> } };
 
 type AboutQueryVariables = {};
 

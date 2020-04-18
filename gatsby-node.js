@@ -17,7 +17,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
 	const { createPage } = actions;
 
 	const BlogPostTemplate = path.resolve(`src/templates/BlogPostTemplate.tsx`);
-	const PageTemplate = path.resolve(`src/templates/PageTemplate.tsx`);
+	 // const PageTemplate = path.resolve(`src/templates/PageTemplate.tsx`);
 	const TagsTemplate = path.resolve(`src/templates/TagsTemplate.tsx`);
 
 	const result = await graphql(`
@@ -29,12 +29,12 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
 				edges {
 					node {
 						frontmatter {
-							slug
+						 path
 						}
 					}
 				}
 			}
-			tagsGroup: allMdx(limit: 2000) {
+			tagsGroup: allMdx {
         group(field: frontmatter___tags) {
           fieldValue
         }
@@ -48,13 +48,8 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
 	}
 
 	result.data.postsRemark.edges.forEach(({ node }) => {
-		const component = node.frontmatter.slug && node.frontmatter.slug.startsWith('/posts/') && BlogPostTemplate; // : PageTemplate;
-		if (component)
-		createPage({
-			path: node.frontmatter.slug,
-			component,
-			context: {},
-		});
+		const { path } = node.frontmatter;
+		createPage({			path,			component: BlogPostTemplate,		});
 
 		result.data.tagsGroup.group.forEach(tag => {
 			createPage({

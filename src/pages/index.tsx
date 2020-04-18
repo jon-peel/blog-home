@@ -27,7 +27,6 @@ const Index: PageComponent<GatsbyTypes.IndexQuery> = ({ data }) => {
 const pageQuery = graphql`
 	query Index {
 		allMdx(
-			filter: { frontmatter:{slug: { regex: "//posts//" }} }
 			sort: { order: DESC, fields: [frontmatter___date] }
 		) {
 			edges {
@@ -38,7 +37,7 @@ const pageQuery = graphql`
 					frontmatter {
 						title
 						date(formatString: "DD MMMM YYYY")
-						slug
+						path
 						tags
 					}
 				}

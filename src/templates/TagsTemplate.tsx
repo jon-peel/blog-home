@@ -47,7 +47,7 @@ const pageQuery = graphql`
 					frontmatter {
 						title
 						date(formatString: "DD MMMM YYYY")
-						slug
+						path
 						tags
 					}
 				}

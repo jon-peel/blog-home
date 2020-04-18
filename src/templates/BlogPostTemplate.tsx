@@ -15,7 +15,7 @@ const BlogPostTemplate: PageComponent<GatsbyTypes.BlogPostQuery> = ({ data }) =>
 	const { mdx } = data;
 	const disqusConfig = {
 		shortname: process.env.GATSBY_DISQUS_NAME!,
-		config: { identifier: mdx?.frontmatter?.slug!, title: mdx?.frontmatter?.title!, url: '' },
+		config: { identifier: mdx?.frontmatter?.path!, title: mdx?.frontmatter?.title!, url: '' },
 	};
 	// const __html = post?.html ?? '';
 
@@ -25,7 +25,7 @@ const BlogPostTemplate: PageComponent<GatsbyTypes.BlogPostQuery> = ({ data }) =>
 			<SEO data={data} />
 			<article>
 				<h2>{mdx?.frontmatter?.title}</h2>
-				<time title={date.toISOString()}>{mdx?.frontmatter?.date}</time>
+				 <time title={date.toISOString()}>{mdx?.frontmatter?.date}</time>
 				<Tags tags={mdx?.frontmatter?.tags} />
 				<MDXProvider components={shortcodes}>
         <MDXRenderer>{mdx!.body}</MDXRenderer>
@@ -39,11 +39,11 @@ const BlogPostTemplate: PageComponent<GatsbyTypes.BlogPostQuery> = ({ data }) =>
 
 const pageQuery = graphql`
 	query BlogPost($path: String!) {
-		mdx(frontmatter: { slug: { eq: $path } }) {
+		mdx(frontmatter: { path: { eq: $path } }) {
 			body
 			frontmatter {
-				date(formatString: "DD MMMM YYYY")
-				slug
+				date
+				path
 				title
 				tags
 			}
