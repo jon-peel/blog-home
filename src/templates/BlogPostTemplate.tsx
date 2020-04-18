@@ -18,7 +18,7 @@ const BlogPostTemplate: PageComponent<GatsbyTypes.BlogPostQuery> = ({ data }) =>
 		config: { 
 			identifier: mdx?.frontmatter?.path!,
 			title: mdx?.frontmatter?.title!,
-			url: `www.jonathanpeel.co.za/${mdx?.frontmatter?.path}`,
+			url: `https://www.jonathanpeel.co.za/${mdx?.frontmatter?.path}`,
 		},
 	};
 	// const __html = post?.html ?? '';
