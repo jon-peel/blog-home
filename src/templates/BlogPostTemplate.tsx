@@ -15,7 +15,11 @@ const BlogPostTemplate: PageComponent<GatsbyTypes.BlogPostQuery> = ({ data }) =>
 	const { mdx } = data;
 	const disqusConfig = {
 		shortname: process.env.GATSBY_DISQUS_NAME!,
-		config: { identifier: mdx?.frontmatter?.path!, title: mdx?.frontmatter?.title!, url: '' },
+		config: { 
+			identifier: mdx?.frontmatter?.path!,
+			title: mdx?.frontmatter?.title!,
+			url: `www.jonathanpeel.co.za/${mdx?.frontmatter?.path}`,
+		},
 	};
 	// const __html = post?.html ?? '';
 
