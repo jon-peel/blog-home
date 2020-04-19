@@ -10,6 +10,10 @@ module.exports = {
 		siteUrl: `https://priceless-neumann-8e4227.netlify.com/`,
 	},
 	plugins: [
+		{
+      resolve: `gatsby-plugin-google-analytics`,
+      options: { trackingId: "UA-45738241-6" },
+    },
 		`gatsby-plugin-netlify`,
 		`gatsby-plugin-styled-components`,
 		`gatsby-plugin-typegen`,
