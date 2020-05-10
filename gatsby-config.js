@@ -7,12 +7,16 @@ module.exports = {
 		title: `Jonathan Peel`,
 		description: `Homepage and blog of Jonathan Peel.`,
 		author: `Jonathan Peel`,
-		siteUrl: `https://priceless-neumann-8e4227.netlify.com/`,
+		siteUrl: `https://www.jonathanpeel.co.za/`,
 	},
 	plugins: [
 		{
       resolve: `gatsby-plugin-google-analytics`,
       options: { trackingId: "UA-45738241-6" },
+		},
+		{
+      resolve: `gatsby-plugin-disqus`,
+      options: { shortname: `jonathan-co-za` }
     },
 		`gatsby-plugin-netlify`,
 		`gatsby-plugin-styled-components`,

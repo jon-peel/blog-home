@@ -1,25 +1,22 @@
+import { Link, graphql } from 'gatsby';
 import React, { FC } from 'react';
-import { graphql, Link } from 'gatsby';
-import SEO from '../components/SEO';
-import Layout from '../components/Layout';
-import Tags from '../components/Tags';
-import { PageComponent } from '../types';
-import { DiscussionEmbed } from "disqus-react"
 
+import { DiscussionEmbed } from "disqus-react"
+import Layout from '../components/Layout';
 import { MDXProvider } from "@mdx-js/react";
 import { MDXRenderer } from "gatsby-plugin-mdx";
+import { PageComponent } from '../types';
+import SEO from '../components/SEO';
+import Tags from '../components/Tags';
 
 const shortcodes = { Link }
 
 const BlogPostTemplate: PageComponent<GatsbyTypes.BlogPostQuery> = ({ data }) => {
 	const { mdx } = data;
 	const disqusConfig = {
-		shortname: process.env.GATSBY_DISQUS_NAME!,
-		config: { 
-			identifier: mdx?.frontmatter?.path!,
-			title: mdx?.frontmatter?.title!,
-			url: `https://www.jonathanpeel.co.za/${mdx?.frontmatter?.path}`,
-		},
+			identifier: mdx!.frontmatter!.path!,
+			title: mdx!.frontmatter!.title,
+			url:  `https://www.jonathanpeel.co.za/${mdx!.frontmatter!.path}`,
 	};
 	// const __html = post?.html ?? '';
 
@@ -34,8 +31,7 @@ const BlogPostTemplate: PageComponent<GatsbyTypes.BlogPostQuery> = ({ data }) =>
 				<MDXProvider components={shortcodes}>
         <MDXRenderer>{mdx!.body}</MDXRenderer>
       </MDXProvider>
-				{/* <main dangerouslySetInnerHTML={{ __html }} /> */}
-				<DiscussionEmbed {...disqusConfig} />
+				<DiscussionEmbed shortname="jonathan-co-za" config={disqusConfig} />
 			</article>
 		</Layout>
 	);

@@ -29,6 +29,7 @@
     "eslint-plugin-react": "^7.19.0",
     "gatsby-background-image": "^1.1.1",
     "gatsby-plugin-catch-links": "^2.2.1",
+    "gatsby-plugin-disqus": "^1.1.4",
     "gatsby-plugin-feed": "^2.4.1",
     "gatsby-plugin-google-analytics": "^2.2.4",
     "gatsby-plugin-google-fonts": "^1.0.1",
