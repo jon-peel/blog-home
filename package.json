@@ -1,7 +1,7 @@
 {
-  "name": "john-doe-starter-site",
+  "name": "Jonathan-Peel-Blog",
   "private": true,
-  "description": "A personal site built on the bare-bones starter for Gatsby",
+  "description": "Home page of Jonathan Peel",
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {

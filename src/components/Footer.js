@@ -1,5 +1,6 @@
+import { graphql, useStaticQuery } from "gatsby"
+
 import React from "react"
-import { useStaticQuery, graphql } from "gatsby"
 
 export default () => {
   const { author } = useStaticQuery(query).site.siteMetadata
@@ -9,6 +10,9 @@ export default () => {
         <b>{author}</b> &copy; {new Date().getFullYear()}. Made with&nbsp;
         <span className="heart">&nbsp;❤&nbsp;</span> &&nbsp;
         <a href="https://www.gatsbyjs.org/">Gatsby</a>
+      </span>
+      <span>
+        Theme and Layout by <a href="https://github.com/surudhb">surudhb</a>
       </span>
     </div>
   )
