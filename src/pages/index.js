@@ -1,10 +1,11 @@
+import { Container, Image } from "react-bootstrap"
 import React, { useContext } from "react"
-import { graphql } from "gatsby"
-import ThemeContext from "../utils/theme"
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { PageLayout } from "../components"
 import { SEO } from "../utils"
-import { Container, Image } from "react-bootstrap"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import ThemeContext from "../utils/theme"
+import { graphql } from "gatsby"
 
 export default ({ data }) => {
   const { unemployed, firstName, lastName, occupation } = data.site.siteMetadata
@@ -45,7 +46,7 @@ export default ({ data }) => {
         <hr className="my-3 w-25" />
         <div className="d-md-inline-flex icons-container">
           <a
-            href="https://www.github.com"
+            href="https://github.com/thorocaine"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -55,7 +56,32 @@ export default ({ data }) => {
               title="Github"
             />
           </a>
+
           <a
+            href="https://twitter.com/thorocaine"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FontAwesomeIcon
+              icon={["fab", "twitter"]}
+              className="icons twitter"
+              title="Twitter"
+            />
+          </a>
+
+          <a
+            href="https://www.youtube.com/channel/UCDqbsnRH6pkwaX0E2shO-hw"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FontAwesomeIcon
+              icon={["fab", "youtube"]}
+              className="icons youtube"
+              title="YoouTube"
+            />
+          </a>
+
+          {/* <a
             href="https://linkedin.com"
             target="_blank"
             rel="noopener noreferrer"
@@ -65,8 +91,8 @@ export default ({ data }) => {
               className="icons linkedin"
               title="LinkedIn"
             />
-          </a>
-          <a
+          </a> */}
+          {/* <a
             href="https://www.freecodecamp.org"
             target="_blank"
             rel="noopener noreferrer"
@@ -76,8 +102,8 @@ export default ({ data }) => {
               className="icons fcc"
               title="FreeCodeCamp"
             />
-          </a>
-          <a
+          </a> */}
+          {/* <a
             href="https://www.hackerrank.com/"
             target="_blank"
             rel="noopener noreferrer"
@@ -87,8 +113,8 @@ export default ({ data }) => {
               className="icons hr"
               title="Hackerrank"
             />
-          </a>
-          <a
+          </a> */}
+          {/* <a
             href="mailto:johndoe@gmail.com"
             target="_blank"
             rel="noopener noreferrer"
@@ -98,14 +124,14 @@ export default ({ data }) => {
               className="icons mail"
               title="e-mail"
             />
-          </a>
-          <a href="../../resume.pdf" target="_blank" download>
+          </a> */}
+          {/* <a href="../../resume.pdf" target="_blank" download>
             <FontAwesomeIcon
               icon={["fas", "file-alt"]}
               className="icons file"
               title="Resume"
             />
-          </a>
+          </a> */}
         </div>
       </Container>
     </PageLayout>

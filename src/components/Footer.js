@@ -11,8 +11,8 @@ export default () => {
         <span className="heart">&nbsp;❤&nbsp;</span> &&nbsp;
         <a href="https://www.gatsbyjs.org/">Gatsby</a>
       </span>
-      <span>
-        Theme and Layout by <a href="https://github.com/surudhb">surudhb</a>
+      <span className="m-auto">
+         &nbsp;- Theme and Layout by <a href="https://github.com/surudhb">surudhb</a>
       </span>
     </div>
   )

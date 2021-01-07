@@ -1,7 +1,7 @@
-import React from "react"
-import { Link } from "gatsby"
-import Img from "gatsby-image"
 import Card from "react-bootstrap/Card"
+import Img from "gatsby-image"
+import { Link } from "gatsby"
+import React from "react"
 
 export default props => {
   return (
