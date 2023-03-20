@@ -1,0 +1,32 @@
+#+HUGO_BASE_DIR: ./
+#+HUGO_SECTION: posts
+#+HUGO_CODE_FENCE: nil
+
+* Blog :blog:
+** A new blog
+:PROPERTIES:
+:EXPORT_FILE_NAME: a-new-blog
+:EXPORT_DATE: 2020-04-18 12:51
+:END:
+
+I am starting a new blog.
+
+The reason is that I have been enjoying React a lot, and Gatsby seems to be pretty cool at the moment.
+
+I am not that great at design, but I can make small improvements over time, I am happy with what I have for now.
+
+It is on [[https://github.com/Thorocaine/blog-home][github]] if you really do want to see the source, but it is pretty simple.
+
+*** Update
+
+This post has been migrated, it is now running on Hugo.
+
+
+** New New Blog :blog:
+:PROPERTIES:
+:EXPORT_FILE_NAME: new-new-blog
+:EXPORT_DATE: <2023-03-20 Mon 07:59>
+:END:
+
+I have started a new, new blog.
+I need inspiration.
