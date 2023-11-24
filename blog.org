@@ -32,7 +32,7 @@ I have started a new, new blog.
 I need inspiration.
 
 
-** TODO F# Blog :f#:dotnet:blog:
+** F# Blog :f#:dotnet:blog:
 :PROPERTIES:
 :EXPORT_FILE_NAME: fsharp-blog
 :EXPORT_DATE: <2023-11-24 Fri 06:54>
