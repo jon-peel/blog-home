@@ -30,3 +30,21 @@ This post has been migrated, it is now running on Hugo.
 
 I have started a new, new blog.
 I need inspiration.
+
+
+** TODO F# Blog :f#:dotnet:blog:
+:PROPERTIES:
+:EXPORT_FILE_NAME: fsharp-blog
+:EXPORT_DATE: <2023-11-24 Fri 06:54>
+:END:
+
+I want to blog about F#.
+
+#+begin_src fsharp :exports both
+let greet () = "Hello, World!"
+
+greet ()
+#+end_src
+
+#+RESULTS:
+: Hello, World!
