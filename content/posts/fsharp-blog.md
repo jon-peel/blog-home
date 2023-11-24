@@ -2,7 +2,7 @@
 title = "FSharp Blog"
 author = ["Jonathan Peel"]
 date = 2023-11-24T06:54:00+03:00
-tags = ["F#", "dotnet", "blog"]
+tags = ["fsharp", "dotnet", "blog"]
 draft = false
 +++
 

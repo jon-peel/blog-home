@@ -8,7 +8,7 @@
 https://nethuml.github.io/posts/2022/06/blog-setup-with-hugo-org-mode/
 
 
-** FSharp Blog :F#:dotnet:blog:
+** FSharp Blog :fsharp:dotnet:blog:
 :PROPERTIES:
 :EXPORT_FILE_NAME: fsharp-blog
 :EXPORT_DATE: <2023-11-24 Fri 06:54>
@@ -58,7 +58,7 @@ Which will then return:
 : Hello, Jonathan!
 
 
-** Advent of Code 2023 :advent:code:AoC:F#:
+** TODO Advent of Code 2023 :advent:code:AoC:fsharp:
 :PROPERTIES:
 :EXPORT_FILE_NAME: 2023-advent-of-code
 :EXPORT_DATE: <2023-11-24 Fri 07:39>
