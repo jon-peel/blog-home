@@ -11,3 +11,6 @@ paginate = 20
   defaultTheme = "dark"
   showMenuItems = 2
   showReadingTime = false
+
+[params.logo]
+  logoText = "Jonathan"
