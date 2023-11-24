@@ -2,7 +2,7 @@
 title = "Advent of Code 2023"
 author = ["Jonathan Peel"]
 date = 2023-11-24T07:39:00+03:00
-tags = ["blog", 2023, "advent", "code", "AoC", "F#"]
+tags = ["blog", "advent", "code", 2023, "AoC", "F#"]
 draft = false
 +++
 

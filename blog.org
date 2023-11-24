@@ -58,7 +58,7 @@ Which will then return:
 : Hello, Jonathan!
 
 
-** Advent of Code 2023 :2023:advent:code:AoC:F#:
+** Advent of Code 2023 :advent:code:2023:AoC:F#:
 :PROPERTIES:
 :EXPORT_FILE_NAME: 2023-advent-of-code
 :EXPORT_DATE: <2023-11-24 Fri 07:39>
