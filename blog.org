@@ -3,42 +3,18 @@
 #+HUGO_CODE_FENCE: nil
 
 * Blog :blog:
-** A new blog
-:PROPERTIES:
-:EXPORT_FILE_NAME: a-new-blog
-:EXPORT_DATE: 2020-04-18 12:51
-:END:
 
-I am starting a new blog.
-
-The reason is that I have been enjoying React a lot, and Gatsby seems to be pretty cool at the moment.
-
-I am not that great at design, but I can make small improvements over time, I am happy with what I have for now.
-
-It is on [[https://github.com/Thorocaine/blog-home][github]] if you really do want to see the source, but it is pretty simple.
-
-*** Update
-
-This post has been migrated, it is now running on Hugo.
+*** Read Me
+https://nethuml.github.io/posts/2022/06/blog-setup-with-hugo-org-mode/
 
 
-** New New Blog :blog:
-:PROPERTIES:
-:EXPORT_FILE_NAME: new-new-blog
-:EXPORT_DATE: <2023-03-20 Mon 07:59>
-:END:
-
-I have started a new, new blog.
-I need inspiration.
-
-
-** F# Blog :f#:dotnet:blog:
+** FSharp Blog :F#:dotnet:blog:
 :PROPERTIES:
 :EXPORT_FILE_NAME: fsharp-blog
 :EXPORT_DATE: <2023-11-24 Fri 06:54>
 :END:
 
-I want to blog about F#.
+I want to blog about F#, and .Net (or is it dotnet?)
 
 #+begin_src fsharp :exports both
 let greet () = "Hello, World!"
@@ -48,3 +24,44 @@ greet ()
 
 #+RESULTS:
 : Hello, World!
+
+
+** Second Post :blog:
+:PROPERTIES:
+:EXPORT_FILE_NAME: second-post
+:EXPORT_DATE: <2023-11-24 Fri 07:24>
+:END:
+
+This is the second post.
+I want to try output instead f results.
+
+#+begin_src fsharp :exports output
+printfn "Hello, World!"
+#+end_src
+
+doesn't print output, but it does print results.
+
+
+#+begin_src fsharp :session sp :exports code
+let greet name = $"Hello, {name}!"
+#+end_src
+
+Which is called with
+
+#+NAME: sp-call-greet
+#+begin_src fsharp :session sp :exports both
+greet "Jonathan P"
+#+end_src
+
+Which will then return:
+#+RESULTS: sp-call-greet
+: Hello, Jonathan!
+
+
+** Advent of Code 2023 :2023:advent:code:AoC:F#:
+:PROPERTIES:
+:EXPORT_FILE_NAME: 2023-advent-of-code
+:EXPORT_DATE: <2023-11-24 Fri 07:39>
+:END:
+
+[[https://adventofcode.com/][Advent of Code]] will be starting soon, and I want to see if can manage any of the challenges using F#.
