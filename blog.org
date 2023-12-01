@@ -69,22 +69,23 @@ Which will then return:
 
 ** AoC 2023, Day 1, Trebuchet :AoC:advent:cod:fsharp:
 :PROPERTIES:
-:EXPORT_FILE_NAME: aoc-2023-01-a
+:EXPORT_FILE_NAME: aoc-2023-01
 :EXPORT_DATE: <2023-12-01 Fri 08:06>
 :END:
 
 It is the first of December, and that means the start of [[https://adventofcode.com/2023][Advent of Code]].
 I am going to make an attempt at this every day, posting my coding solutions (as much as possible in F#). I will not be posting the questions, as they can be found online, and I will not be posting my final answer.
 
-[[https://adventofcode.com/2023/day/1][The first question is called Trebuchet]].
+[[https://adventofcode.com/2023/day/1][The first question is called /Trebuchet/]].
+
+*** Part 1
 
 I will first need a function that will be able to grab the first and last digits from a single row string.
 
-#+begin_src fsharp :session aoc-2023-01-a :exports both
+#+begin_src fsharp :session aoc-2023-01 :exports both
 let firstAndLastDigit (codedCalibration: string) =
     let digits =
         codedCalibration
-        |> Seq.map id
         |> Seq.where (System.Char.IsDigit)
         |> Seq.toArray
     [| digits[0]; Seq.last digits |]
@@ -99,7 +100,7 @@ firstAndLastDigit "1abc2"
 
 This might be enough to put it all together.
 
-#+begin_src fsharp :session aoc-2023-01-a :exports code
+#+begin_src fsharp :session aoc-2023-01 :exports code
 let exampleInput =
     "1abc2
 pqr3stu8vwx
@@ -112,3 +113,83 @@ exampleInput.Split '\n'
 #+end_src
 
 This will have a final result of `142`.
+
+*** Part 2
+
+To complete part two, I want to first get a function that will extract all digits, and digit words out from a string.
+
+#+begin_src fsharp :session aoc-2023-01 :exports code
+let (|StartsWith|_|) (start: string) (full: string)  =
+    if full.StartsWith(start) then Some full
+    else None
+
+let extract (input: string) =
+    match input with
+    | StartsWith "zero" _ -> Some 2
+    | StartsWith "one" _ -> Some 1
+    | StartsWith "two" _ -> Some 2
+    | StartsWith "three" _ -> Some 3
+    | StartsWith "four" _ -> Some 4
+    | StartsWith "five" _ -> Some 5
+    | StartsWith "six" _ -> Some 6
+    | StartsWith "seven" _ -> Some 7
+    | StartsWith "eight" _ -> Some 8
+    | StartsWith "nine" _ -> Some 9
+    | x when System.Char.IsDigit x[0] -> Some (int x[0..0])
+    | _ -> None
+
+let digitsOf (input: string) =
+    seq { for i = 0 to input.Length - 1 do
+          yield (extract input[i..]) }
+    |> Seq.choose id
+    |> Seq.toArray
+#+end_src
+
+With the input of this will return
+#+NAME: aoc-2023-01-b-1
+#+begin_src fsharp :session aoc-2023-01 :exports all :wrap example
+digitsOf "two1nine"
+#+end_src
+
+This will return
+#+RESULTS: aoc-2023-01-b-1
+#+begin_example
+| 2 | 1 | 9 |
+#+end_example
+
+And now I can update the original function to use this
+
+#+begin_src fsharp :session aoc-2023-01 :exports both
+let firstAndLastDigit (codedCalibration: string) =
+    let digits = digitsOf codedCalibration
+    [| digits[0]; Seq.last digits |]
+    |> Array.map string
+    |> (fun s -> System.String.Join ("", s))
+    |> int
+
+firstAndLastDigit "two1nine"
+#+end_src
+
+#+RESULTS:
+: 29
+
+And then I can test with the test input
+
+#+begin_src fsharp :session aoc-2023-01 :exports code
+let exampleInput =
+    "two1nine
+eightwothree
+abcone2threexyz
+xtwone3four
+4nineeightseven2
+zoneight234
+7pqrstsixteen"
+
+exampleInput.Split '\n'
+|> Seq.map firstAndLastDigit
+|> Seq.sum
+#+end_src
+
+This returns `281` which is the correct result for the test input.
+#+RESULTS:
+: 281
