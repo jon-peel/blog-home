@@ -65,3 +65,50 @@ Which will then return:
 :END:
 
 [[https://adventofcode.com/][Advent of Code]] will be starting soon, and I want to see if can manage any of the challenges using F#.
+
+
+** AoC 2023, Day 1, Trebuchet :AoC:advent:cod:fsharp:
+:PROPERTIES:
+:EXPORT_FILE_NAME: aoc-2023-01-a
+:EXPORT_DATE: <2023-12-01 Fri 08:06>
+:END:
+
+It is the first of December, and that means the start of [[https://adventofcode.com/2023][Advent of Code]].
+I am going to make an attempt at this every day, posting my coding solutions (as much as possible in F#). I will not be posting the questions, as they can be found online, and I will not be posting my final answer.
+
+[[https://adventofcode.com/2023/day/1][The first question is called Trebuchet]].
+
+I will first need a function that will be able to grab the first and last digits from a single row string.
+
+#+begin_src fsharp :session aoc-2023-01-a :exports both
+let firstAndLastDigit (codedCalibration: string) =
+    let digits =
+        codedCalibration
+        |> Seq.map id
+        |> Seq.where (System.Char.IsDigit)
+        |> Seq.toArray
+    [| digits[0]; Seq.last digits |]
+    |> System.String
+    |> int
+
+firstAndLastDigit "1abc2"
+#+end_src
+
+#+RESULTS:
+: 12
+
+This might be enough to put it all together.
+
+#+begin_src fsharp :session aoc-2023-01-a :exports code
+let exampleInput =
+    "1abc2
+pqr3stu8vwx
+a1b2c3d4e5f
+treb7uchet"
+
+exampleInput.Split '\n'
+|> Seq.map firstAndLastDigit
+|> Seq.sum
+#+end_src
+
+This will have a final result of `142`.
