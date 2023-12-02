@@ -153,11 +153,6 @@ This returns `281` which is the correct result for the test input.
 
 Today's puzzle is [[https://adventofcode.com/2023/day/2][Cube Conundrum]].
 
-#+begin_src fsharp :session aoc-2023-02 :exports both
-
-#+end_src
-
-
 *** Part 1
 
 I will start by defining a few types, cube, game.
