@@ -8,56 +8,6 @@
 https://nethuml.github.io/posts/2022/06/blog-setup-with-hugo-org-mode/
 
 
-** FSharp Blog :fsharp:dotnet:blog:
-:PROPERTIES:
-:EXPORT_FILE_NAME: fsharp-blog
-:EXPORT_DATE: <2023-11-24 Fri 06:54>
-:END:
-
-I want to blog about F#, and .Net (or is it dotnet?)
-
-#+begin_src fsharp :exports both
-let greet () = "Hello, World!"
-
-greet ()
-#+end_src
-
-#+RESULTS:
-: Hello, World!
-
-
-** Second Post :blog:
-:PROPERTIES:
-:EXPORT_FILE_NAME: second-post
-:EXPORT_DATE: <2023-11-24 Fri 07:24>
-:END:
-
-This is the second post.
-I want to try output instead f results.
-
-#+begin_src fsharp :exports output
-printfn "Hello, World!"
-#+end_src
-
-doesn't print output, but it does print results.
-
-
-#+begin_src fsharp :session sp :exports code
-let greet name = $"Hello, {name}!"
-#+end_src
-
-Which is called with
-
-#+NAME: sp-call-greet
-#+begin_src fsharp :session sp :exports both
-greet "Jonathan P"
-#+end_src
-
-Which will then return:
-#+RESULTS: sp-call-greet
-: Hello, Jonathan!
-
-
 ** Advent of Code 2023 :advent:code:AoC:fsharp:
 :PROPERTIES:
 :EXPORT_FILE_NAME: 2023-advent-of-code
@@ -67,7 +17,7 @@ Which will then return:
 [[https://adventofcode.com/][Advent of Code]] will be starting soon, and I want to see if can manage any of the challenges using F#.
 
 
-** AoC 2023, Day 1, Trebuchet :AoC:advent:cod:fsharp:
+** AoC 2023, Day 1, Trebuchet :AoC:advent:code:fsharp:
 :PROPERTIES:
 :EXPORT_FILE_NAME: aoc-2023-01
 :EXPORT_DATE: <2023-12-01 Fri 08:06>
@@ -193,3 +143,171 @@ exampleInput.Split '\n'
 This returns `281` which is the correct result for the test input.
 #+RESULTS:
 : 281
+
+
+** AoC 2023, Day 2 :AoC:advent:code:fsharp:
+:PROPERTIES:
+:EXPORT_FILE_NAME: aoc-2023-02
+:EXPORT_DATE: <2023-12-02 Sat 07:57>
+:END:
+
+Today's puzzle is [[https://adventofcode.com/2023/day/2][Cube Conundrum]].
+
+#+begin_src fsharp :session aoc-2023-02 :exports both
+
+#+end_src
+
+
+*** Part 1
+
+I will start by defining a few types, cube, game.
+#+begin_src fsharp :session aoc-2023-02 :exports code
+type Set = Set of red: int * green: int *  blue: int
+type Game = Game of no: int * sets: Set list
+#+end_src
+
+#+RESULTS:
+: type Set = Set of red: int * green: int *  blue: int
+: type Game = Game of no: int * sets: Set list;;
+: type Set = | Set of red: int * green: int * blue: int
+: type Game = | Game of no: int * sets: Set list
+
+I need a way to see if a given game is valid (a game is valid if all sets in the game are valid).
+#+begin_src fsharp :session aoc-2023-02 :exports code
+let validSet (Set (bagRed, bagGreen, bagBlue)) (Set (setRed, setGreen, setBlue)) =
+    setRed <= bagRed && setGreen <= bagGreen && setBlue <= bagBlue
+
+let validGame bag (Game (no, sets)) =
+    if Seq.forall (validSet bag) sets then Some no else None
+#+end_src
+
+#+RESULTS:
+: let validSet (Set (bagRed, bagGreen, bagBlue)) (Set (setRed, setGreen, setBlue)) =
+:     setRed <= bagRed && setGreen <= bagGreen && setBlue <= bagBlue
+:
+: let validGame bag (Game (no, sets)) =
+:     if Seq.forall (validSet bag) sets then Some no else None ;;
+: val validSet: Set -> Set -> bool
+: val validGame: bag: Set -> Game -> int option
+
+I need to be able to read the input text
+#+begin_src fsharp :session aoc-2023-02 :exports code
+let readText (fullText: string) =
+    let readCubes (Set (red,green,blue)) (cubeText: string) =
+        match cubeText.Split(' ') with
+        | [| x; "red" |] -> (Set (int x, green, blue))
+        | [| x; "green" |] -> (Set (red, int x, blue))
+        | [| x; "blue" |] -> (Set (red, green, int x))
+        | _ -> (Set (red, green, blue))
+
+    let readSet (setText: string) =
+        setText.Split(',')
+        |> Seq.map (fun x -> x.Trim())
+        |> Seq.fold readCubes (Set (0,0,0))
+
+    let readGameId (game: string) = game.Split(' ')[1] |> int
+    let readGame (gameText: string) =
+        match gameText.Split(':') with
+        | [| game; sets |] -> Some (Game (readGameId game, sets.Split(';') |> Seq.map readSet |> Seq.toList))
+        | _ -> None
+
+    fullText.Split("\n") |> Seq.choose readGame
+#+end_src
+
+#+RESULTS:
+#+begin_example
+let readText (fullText: string) =
+    let readCubes (Set (red,green,blue)) (cubeText: string) =
+        match cubeText.Split(' ') with
+        | [| x; "red" |] -> (Set (int x, green, blue))
+        | [| x; "green" |] -> (Set (red, int x, blue))
+        | [| x; "blue" |] -> (Set (red, green, int x))
+        | _ -> (Set (red, green, blue))
+
+    let readSet (setText: string) =
+        setText.Split(',')
+        |> Seq.map (fun x -> x.Trim())
+        |> Seq.fold readCubes (Set (0,0,0))
+
+    let readGameId (game: string) = game.Split(' ')[1] |> int
+    let readGame (gameText: string) =
+        match gameText.Split(':') with
+        | [| game; sets |] -> Some (Game (readGameId game, sets.Split(';') |> Seq.map readSet |> Seq.toList))
+        | _ -> None
+
+    fullText.Split("\n") |> Seq.choose readGame  ;;
+val readText: fullText: string -> Game seq
+#+end_example
+
+
+I will now create a bag (which is just a set).
+#+begin_src fsharp :session aoc-2023-02 :exports code
+let bag = Set (12, 13, 14)
+#+end_src
+
+
+And then read the example text, convert it to a list of games, validate each one, and then get a sum of the numbers.
+#+begin_src fsharp :session aoc-2023-02 :exports both
+let sampleText =
+    "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
+Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
+Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
+Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"
+
+sampleText
+|> readText
+|> Seq.choose (validGame bag)
+|> Seq.sum
+#+end_src
+
+#+RESULTS:
+: 8
+
+The result is correct for the example, and my answer for the puzzle is correct as well.
+
+*** Part 2
+
+In Part 2 I need to find the minimum bag needed for each game.
+This can be done by fining the maximum of each cube colour in each game.
+#+begin_src fsharp :session aoc-2023-02 :exports code
+let minSet (Game (_, sets)) =
+     let getRed (Set(r,_,_)) = r
+     let getGreen (Set(_,g,_)) = g
+     let getBlue (Set(_,_,b)) = b
+     let maxBy g = sets |> Seq.map g |> Seq.max
+     Set (maxBy getRed, maxBy getGreen, maxBy getBlue)
+#+end_src
+
+#+RESULTS:
+: let minSet (Game (_, sets)) =
+:      let getRed (Set(r,_,_)) = r
+:      let getGreen (Set(_,g,_)) = g
+:      let getBlue (Set(_,_,b)) = b
+:      let maxBy g = sets |> Seq.map g |> Seq.max
+:      Set (maxBy getRed, maxBy getGreen, maxBy getBlue);;
+: val minSet: Game -> Set
+
+I need a small function to calculate the power of each games minimum bag.
+#+begin_src fsharp :session aoc-2023-02 :exports code
+let powerCube (Set (red, green, blue)) = red * green * blue
+#+end_src
+
+#+RESULTS:
+: let powerCube (Set (red, green, blue)) = red * green * blue;;
+: val powerCube: Set -> int
+
+Now I put this all together and see if my results are close.
+#+begin_src fsharp :session aoc-2023-02 :exports both
+sampleText
+|> readText
+|> Seq.map minSet
+|> Seq.map powerCube
+|> Seq.sum
+#+end_src
+
+#+RESULTS:
+: 2286
+
+`2286` is the result I am expecting with the example input.
+My final answer is also correct, I have one more gold star.
