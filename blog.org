@@ -309,7 +309,7 @@ sampleText
 My final answer is also correct, I have one more gold star.
 
 
-** :star: AoC 2023, Day 3, Gear Ratios :AoC:advent:code:fsharp:
+** :star::star: AoC 2023, Day 3, Gear Ratios :AoC:advent:code:fsharp:
 :PROPERTIES:
 :EXPORT_FILE_NAME: aoc-2023-03
 :EXPORT_DATE: <2023-12-04 Mon 08:38>
@@ -423,3 +423,98 @@ sampleText.Split('\n')
 My final answer is also correct. I get another gold star, and I can move on to part 2.
 
 *** Part 2
+
+Part two will require some changes, mostly a copy paste of Part 1 answer with the required changes in each function.
+
+I am going to create a few more types, to describe what I am working with
+#+begin_src fsharp :session aoc-2023-03 :exports code
+type Gear = Gear of r: int * c: int
+type GearDigit =
+    | GearDigit of chr: char * gear: Gear
+    | NoGearDigit of char
+type GearNumber =
+    | GearNumber of number: string * gear: Gear
+    | NoGearNumber of number: string
+#+end_src
+
+And then a couple of helper methods
+#+begin_src fsharp :session aoc-2023-03 :exports code
+let isGear r c chr = if chr = '*' then Some (Gear (r, c)) else None
+
+let asGearDigit text r c chr =
+    let gear =
+        getEdges text r c
+        |> Seq.map (fun (r, c) -> text[r][c], r, c)
+        |> Seq.choose (fun (x, r, c) -> isGear r c x)
+        |> Seq.tryHead
+    match gear with
+    | Some g -> GearDigit (chr, g)
+    | None -> NoGearDigit chr
+#+end_src
+
+The extract method is very similar
+#+begin_src fsharp :session aoc-2023-03 :exports code
+let extractGears (text: string[]) =
+    let rec extractRow r c (acc: List<GearDigit list>) (num: GearDigit list): List<GearDigit list> =
+        if r >= text.Length then acc
+        else if (c >= text[r].Length && num = []) then extractRow (r+1) 0 acc []
+        else if (c >= text[r].Length) then extractRow (r+1) 0 (acc@[num]) []
+        else
+            let chr = text[r][c]
+            if Char.IsDigit(chr) then
+                let dig = asGearDigit text r c chr
+                extractRow r (c+1) acc (num@[dig])
+            else if num <> [] then
+                extractRow r (c+1) (acc@[num]) []
+            else extractRow r (c+1) acc []
+    extractRow 0 0 [] []
+#+end_src
+
+Similar to Part One, I now have a list of lists, so I will collect them into numbers, either with or without a gear.
+#+begin_src fsharp :session aoc-2023-03 :exports code
+let asGearNumber (num: GearDigit list) =
+    let rec partial (acc: GearNumber) (remain: GearDigit list): GearNumber =
+        match remain, acc with
+        | [], _ -> acc
+        | GearDigit (head, gear)::tail, GearNumber (x, _) -> partial (GearNumber ($"{x}{head}", gear)) tail
+        | GearDigit (head, gear)::tail, NoGearNumber x -> partial (GearNumber ($"{x}{head}", gear)) tail
+        | NoGearDigit head::tail, GearNumber (x, gear) -> partial (GearNumber ($"{x}{head}", gear)) tail
+        | NoGearDigit head::tail, NoGearNumber x -> partial (NoGearNumber $"{x}{head}") tail
+    partial (NoGearNumber "") num
+#+end_src
+
+The real difference starts now in matching, if two numbers have the same gear they are paired. I am going to use this function to convert to integers at the same time [fn::You could probably argue this violates separation of concerns (or SRP), which is a valuable rule in both functional and object oriented programming].
+#+begin_src fsharp :session aoc-2023-03 :exports code
+let numberPairs (numbers: GearNumber list) =
+    let rec matchPair (num: (string * Gear) option) (remain: (string * Gear) list): (int * int) option =
+        match num, remain with
+        | _, [] -> None
+        | Some (n, g), (no, go) :: _ when go = g -> Some (int n, int no)
+        | Some (n, g), _ :: tail -> matchPair (Some (n, g)) tail
+        | None, (no, go) :: tail -> matchPair (Some (no, go)) tail
+
+    let rec findPairs acc remain =
+        match remain with
+        | head :: tail ->
+            let pair = matchPair None (head::tail)
+            match pair with
+            | Some p -> findPairs (acc@[p]) tail
+            | None -> findPairs acc tail
+        | [] -> acc
+    numbers
+    |> List.choose (function | GearNumber (x, gear) -> Some (x, gear) | NoGearNumber _ -> None)
+    |> findPairs []
+#+end_src
+
+This can be piped together and executed
+#+begin_src fsharp :session aoc-2023-03 :exports both
+sampleText.Split('\n')
+|> extractGears
+|> List.map asGearNumber
+|> numberPairs
+|> List.map (fun (a,b) -> a*b)
+|> List.sum
+#+end_src
+
+The result of ~467835~ is what I am expecting with the sample data. \\
+My final answer is also correct, and I do get another star.
