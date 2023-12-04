@@ -1,6 +1,7 @@
 #+HUGO_BASE_DIR: ./
 #+HUGO_SECTION: posts
 #+HUGO_CODE_FENCE: nil
+#+STARTUP: overview
 
 * Blog :blog:
 
@@ -17,7 +18,7 @@ https://nethuml.github.io/posts/2022/06/blog-setup-with-hugo-org-mode/
 [[https://adventofcode.com/][Advent of Code]] will be starting soon, and I want to see if can manage any of the challenges using F#.
 
 
-** AoC 2023, Day 1, Trebuchet :AoC:advent:code:fsharp:
+** :star::star: AoC 2023, Day 1, Trebuchet :AoC:advent:code:fsharp:
 :PROPERTIES:
 :EXPORT_FILE_NAME: aoc-2023-01
 :EXPORT_DATE: <2023-12-01 Fri 08:06>
@@ -145,7 +146,7 @@ This returns `281` which is the correct result for the test input.
 : 281
 
 
-** AoC 2023, Day 2, Cube Conundrum :AoC:advent:code:fsharp:
+** :star::star: AoC 2023, Day 2, Cube Conundrum :AoC:advent:code:fsharp:
 :PROPERTIES:
 :EXPORT_FILE_NAME: aoc-2023-02
 :EXPORT_DATE: <2023-12-02 Sat 07:57>
@@ -308,7 +309,7 @@ sampleText
 My final answer is also correct, I have one more gold star.
 
 
-** AoC 2023, Day 3, Gear Ratios :AoC:advent:code:fsharp:
+** :star: AoC 2023, Day 3, Gear Ratios :AoC:advent:code:fsharp:
 :PROPERTIES:
 :EXPORT_FILE_NAME: aoc-2023-03
 :EXPORT_DATE: <2023-12-04 Mon 08:38>
@@ -420,3 +421,5 @@ sampleText.Split('\n')
 
 ~4361~ is the correct answer with the sample input. \\
 My final answer is also correct. I get another gold star, and I can move on to part 2.
+
+*** Part 2
