@@ -633,10 +633,50 @@ sampleText.Split('\n')
 |> Seq.sum
 #+end_src
 
-#+RESULTS: aoc-2023-04-test4
-#+begin_example
-13
-#+end_example
-
 ~13~ is the correct answer for the sample data. \\
 My final answer is also correct, so I earn another gold star.
+
+*** Part 2
+
+In part two we need to keep track of how many times a card is copies.
+
+I am going to create a very basic record type that will keep the number of matching numbers on a card, and how many copies of this card we have.
+#+begin_src fsharp :session aoc-2023-04 :exports code
+type CardMatch = { matches: int; copies: int }
+#+end_src
+
+
+I am also creating some functions that will help me track the number of copies we have of each card. In F# items in an array can be changed [fn::/Changing/ things is not normally the functional way to do something, but it is the way that makes sense to me in this situation.], so I am using that to update the count as we go down all the cards.
+#+begin_src fsharp :session aoc-2023-04 :exports code
+module CardMatch =
+    let create matches = { matches = matches; copies = 1 }
+    let checkMatches cards = cards |> Seq.map (Card.winningNumbers >> Seq.length >> create)
+    let copies m = m.copies
+
+    let copyCards cardsWithMatches =
+        let copiesOfCards = Seq.toArray cardsWithMatches
+        for i = 0 to copiesOfCards.Length - 1 do
+            let m = copiesOfCards[i]
+            for j = i + 1 to i + m.matches do
+                let c = copiesOfCards[j]
+                copiesOfCards[j] <- { c with copies = c.copies + m.copies }
+        copiesOfCards
+#+end_src
+
+I now pipe this together and see what we get.
+#+NAME: aoc-2023-04-test5
+#+begin_src fsharp :session aoc-2023-04 :exports both :wrap example
+sampleText.Split('\n')
+|> Seq.map Card.parse
+|> CardMatch.checkMatches
+|> CardMatch.copyCards
+|> Seq.sumBy CardMatch.copies
+#+end_src
+
+#+RESULTS: aoc-2023-04-test5
+#+begin_example
+30
+#+end_example
+
+~30~ is the value I am expecting with the sample data. \\
+My answer with the complete data is also correct, and I get another star.
