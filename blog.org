@@ -18,7 +18,7 @@ https://nethuml.github.io/posts/2022/06/blog-setup-with-hugo-org-mode/
 [[https://adventofcode.com/][Advent of Code]] will be starting soon, and I want to see if can manage any of the challenges using F#.
 
 
-** &#x2B50;&#x2B50; AoC 2023, Day 1, Trebuchet :AoC:advent:code:fsharp:
+** AoC 2023, Day 1, Trebuchet :AoC:advent:code:fsharp:
 :PROPERTIES:
 :EXPORT_FILE_NAME: aoc-2023-01
 :EXPORT_DATE: <2023-12-01 Fri 08:06>
@@ -146,7 +146,7 @@ This returns `281` which is the correct result for the test input.
 : 281
 
 
-** &#x2B50;&#x2B50; AoC 2023, Day 2, Cube Conundrum :AoC:advent:code:fsharp:
+** AoC 2023, Day 2, Cube Conundrum :AoC:advent:code:fsharp:
 :PROPERTIES:
 :EXPORT_FILE_NAME: aoc-2023-02
 :EXPORT_DATE: <2023-12-02 Sat 07:57>
@@ -309,7 +309,7 @@ sampleText
 My final answer is also correct, I have one more gold star.
 
 
-** &#x2B50;&#x2B50; AoC 2023, Day 3, Gear Ratios :AoC:advent:code:fsharp:
+** AoC 2023, Day 3, Gear Ratios :AoC:advent:code:fsharp:
 :PROPERTIES:
 :EXPORT_FILE_NAME: aoc-2023-03
 :EXPORT_DATE: <2023-12-04 Mon 08:38>
@@ -518,3 +518,125 @@ sampleText.Split('\n')
 
 The result of ~467835~ is what I am expecting with the sample data. \\
 My final answer is also correct, and I do get another star.
+
+
+
+** AoC 2023, Day 4, Scratchcards :Aoc:advent:code:fsharp:
+:PROPERTIES:
+:EXPORT_FILE_NAME: aoc-2023-04
+:EXPORT_DATE: <2023-12-05 Tue 08:37>
+:END:
+
+Today's puzzle is called [[https://adventofcode.com/2023/day/4][Scratchcards]].
+
+*** Part 1
+
+I am going to start by creating a type called card to store the information in.
+#+begin_src fsharp :session aoc-2023-04 :exports code
+type Card = Card of no: int * winners: int [] * mine: int []
+#+end_src
+
+I need to be able to parse the card text, This could be done more elegant, but I'm going to split the string up, and assume there is no problem in the input data.
+#+begin_src fsharp :session aoc-2023-04 :exports code
+module Card =
+    let parse (text: string) =
+        let cleanSplit (text: string) (chr: char) =
+            text.Split(chr) |> Array.filter (fun x -> x.Length > 0)
+        let toNumArray (text: string) =
+            cleanSplit text ' '
+            |> Array.map (fun x -> x.Trim())
+            |> Array.filter (fun x -> x.Length > 0)
+            |> Array.map int
+
+        let cardNoSplit = text.Split(':')
+        let no = (cleanSplit cardNoSplit[0] ' ').[1].Trim() |> int
+        let numbersSplit = cardNoSplit[1].Split('|')
+        let winners = toNumArray numbersSplit[0]
+        let mine = toNumArray numbersSplit[1]
+        Card (no, winners, mine)
+#+end_src
+
+I can test this on the first row.
+#+NAME: aoc-2023-04-test1
+#+begin_src fsharp :session aoc-2023-04 :exports both
+Card.parse "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53"
+#+end_src
+
+Which returns:
+#+RESULTS: aoc-2023-04-test1
+: Card.parse "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53";;
+: val it: Card =
+:   Card (1, [|41; 48; 83; 86; 17|], [|83; 86; 6; 31; 17; 9; 48; 53|])
+
+I now need to score a card, let me first get the number of winning numbers in my numbers.
+#+begin_src fsharp :session aoc-2023-04 :exports code
+module Card =
+    let winningNumbers (Card (_, winners, mine)) =
+        [| for no in mine do
+           match (winners |> Seq.tryFind ((=) no)) with
+           | Some x -> yield x
+           | _ -> () |]
+#+end_src
+
+I will test this.
+#+NAME: aoc-2023-04-test2
+#+begin_src fsharp :session aoc-2023-04 :exports both :wrap example
+"Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19"
+|> Card.parse
+|> Card.winningNumbers
+#+end_src
+
+Which returns:
+#+RESULTS: aoc-2023-04-test2
+#+begin_example
+| 61 | 32 |
+#+end_example
+
+#+begin_src fsharp :session aoc-2023-04 :exports code
+module Card =
+    let score card =
+        let rec double acc numbers =
+            match numbers with
+            | [||] -> acc
+            | _ -> double (if acc = 0 then 1 else acc * 2) numbers[1..]
+        double 0 (Card.winningNumbers card)
+#+end_src
+
+I will test this.
+#+NAME: aoc-2023-04-test3
+#+begin_src fsharp :session aoc-2023-04 :exports both :wrap example
+"Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1"
+|> Card.parse
+|> Card.score
+#+end_src
+
+Which returns:
+#+RESULTS: aoc-2023-04-test3
+#+begin_example
+2
+#+end_example
+
+I am happy this far, lets pipe it all together and see what we get.
+#+NAME: aoc-2023-04-test4
+#+begin_src fsharp :session aoc-2023-04 :exports both :wrap example
+let sampleText =
+    "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
+Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
+Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1
+Card 4: 41 92 73 84 69 | 59 84 76 51 58  5 54 83
+Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
+Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11"
+
+sampleText.Split('\n')
+|> Seq.map Card.parse
+|> Seq.map Card.score
+|> Seq.sum
+#+end_src
+
+#+RESULTS: aoc-2023-04-test4
+#+begin_example
+13
+#+end_example
+
+~13~ is the correct answer for the sample data. \\
+My final answer is also correct, so I earn another gold star.
