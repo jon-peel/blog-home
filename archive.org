@@ -1,0 +1,675 @@
+#+title: Archive
+
+* Blog :blog:
+
+** Advent of Code 2023 :advent:code:AoC:fsharp:
+:PROPERTIES:
+:EXPORT_FILE_NAME: 2023-advent-of-code
+:EXPORT_DATE: <2023-11-24 Fri 07:39>
+:END:
+
+[[https://adventofcode.com/][Advent of Code]] will be starting soon, and I want to see if can manage any of the challenges using F#.
+
+
+** AoC 2023, Day 1, Trebuchet :AoC:advent:code:fsharp:
+:PROPERTIES:
+:EXPORT_FILE_NAME: aoc-2023-01
+:EXPORT_DATE: <2023-12-01 Fri 08:06>
+:END:
+
+It is the first of December, and that means the start of [[https://adventofcode.com/2023][Advent of Code]].
+I am going to make an attempt at this every day, posting my coding solutions (as much as possible in F#). I will not be posting the questions, as they can be found online, and I will not be posting my final answer.
+
+[[https://adventofcode.com/2023/day/1][The first question is called /Trebuchet/]].
+
+*** Part 1
+
+I will first need a function that will be able to grab the first and last digits from a single row string.
+
+#+begin_src fsharp :session aoc-2023-01 :exports both
+let firstAndLastDigit (codedCalibration: string) =
+    let digits =
+        codedCalibration
+        |> Seq.where (System.Char.IsDigit)
+        |> Seq.toArray
+    [| digits[0]; Seq.last digits |]
+    |> System.String
+    |> int
+
+firstAndLastDigit "1abc2"
+#+end_src
+
+#+RESULTS:
+: 12
+
+This might be enough to put it all together.
+
+#+begin_src fsharp :session aoc-2023-01 :exports code
+let exampleInput =
+    "1abc2
+pqr3stu8vwx
+a1b2c3d4e5f
+treb7uchet"
+
+exampleInput.Split '\n'
+|> Seq.map firstAndLastDigit
+|> Seq.sum
+#+end_src
+
+This will have a final result of `142`.
+
+*** Part 2
+
+To complete part two, I want to first get a function that will extract all digits, and digit words out from a string.
+
+#+begin_src fsharp :session aoc-2023-01 :exports code
+let (|StartsWith|_|) (start: string) (full: string)  =
+    if full.StartsWith(start) then Some full
+    else None
+
+let extract (input: string) =
+    match input with
+    | StartsWith "zero" _ -> Some 2
+    | StartsWith "one" _ -> Some 1
+    | StartsWith "two" _ -> Some 2
+    | StartsWith "three" _ -> Some 3
+    | StartsWith "four" _ -> Some 4
+    | StartsWith "five" _ -> Some 5
+    | StartsWith "six" _ -> Some 6
+    | StartsWith "seven" _ -> Some 7
+    | StartsWith "eight" _ -> Some 8
+    | StartsWith "nine" _ -> Some 9
+    | x when System.Char.IsDigit x[0] -> Some (int x[0..0])
+    | _ -> None
+
+let digitsOf (input: string) =
+    seq { for i = 0 to input.Length - 1 do
+          yield (extract input[i..]) }
+    |> Seq.choose id
+    |> Seq.toArray
+#+end_src
+
+With the input of this will return
+#+NAME: aoc-2023-01-b-1
+#+begin_src fsharp :session aoc-2023-01 :exports all :wrap example
+digitsOf "two1nine"
+#+end_src
+
+This will return
+#+RESULTS: aoc-2023-01-b-1
+#+begin_example
+| 2 | 1 | 9 |
+#+end_example
+
+And now I can update the original function to use this
+
+#+begin_src fsharp :session aoc-2023-01 :exports both
+let firstAndLastDigit (codedCalibration: string) =
+    let digits = digitsOf codedCalibration
+    [| digits[0]; Seq.last digits |]
+    |> Array.map string
+    |> (fun s -> System.String.Join ("", s))
+    |> int
+
+firstAndLastDigit "two1nine"
+#+end_src
+
+#+RESULTS:
+: 29
+
+And then I can test with the test input
+
+#+begin_src fsharp :session aoc-2023-01 :exports code
+let exampleInput =
+    "two1nine
+eightwothree
+abcone2threexyz
+xtwone3four
+4nineeightseven2
+zoneight234
+7pqrstsixteen"
+
+exampleInput.Split '\n'
+|> Seq.map firstAndLastDigit
+|> Seq.sum
+#+end_src
+
+This returns `281` which is the correct result for the test input.
+#+RESULTS:
+: 281
+
+
+** AoC 2023, Day 2, Cube Conundrum :AoC:advent:code:fsharp:
+:PROPERTIES:
+:EXPORT_FILE_NAME: aoc-2023-02
+:EXPORT_DATE: <2023-12-02 Sat 07:57>
+:END:
+
+Today's puzzle is [[https://adventofcode.com/2023/day/2][Cube Conundrum]].
+
+*** Part 1
+
+I will start by defining a few types, cube, game.
+#+begin_src fsharp :session aoc-2023-02 :exports code
+type Set = Set of red: int * green: int *  blue: int
+type Game = Game of no: int * sets: Set list
+#+end_src
+
+#+RESULTS:
+: type Set = Set of red: int * green: int *  blue: int
+: type Game = Game of no: int * sets: Set list;;
+: type Set = | Set of red: int * green: int * blue: int
+: type Game = | Game of no: int * sets: Set list
+
+I need a way to see if a given game is valid (a game is valid if all sets in the game are valid).
+#+begin_src fsharp :session aoc-2023-02 :exports code
+let validSet (Set (bagRed, bagGreen, bagBlue)) (Set (setRed, setGreen, setBlue)) =
+    setRed <= bagRed && setGreen <= bagGreen && setBlue <= bagBlue
+
+let validGame bag (Game (no, sets)) =
+    if Seq.forall (validSet bag) sets then Some no else None
+#+end_src
+
+#+RESULTS:
+: let validSet (Set (bagRed, bagGreen, bagBlue)) (Set (setRed, setGreen, setBlue)) =
+:     setRed <= bagRed && setGreen <= bagGreen && setBlue <= bagBlue
+:
+: let validGame bag (Game (no, sets)) =
+:     if Seq.forall (validSet bag) sets then Some no else None ;;
+: val validSet: Set -> Set -> bool
+: val validGame: bag: Set -> Game -> int option
+
+I need to be able to read the input text
+#+begin_src fsharp :session aoc-2023-02 :exports code
+let readText (fullText: string) =
+    let readCubes (Set (red,green,blue)) (cubeText: string) =
+        match cubeText.Split(' ') with
+        | [| x; "red" |] -> (Set (int x, green, blue))
+        | [| x; "green" |] -> (Set (red, int x, blue))
+        | [| x; "blue" |] -> (Set (red, green, int x))
+        | _ -> (Set (red, green, blue))
+
+    let readSet (setText: string) =
+        setText.Split(',')
+        |> Seq.map (fun x -> x.Trim())
+        |> Seq.fold readCubes (Set (0,0,0))
+
+    let readGameId (game: string) = game.Split(' ')[1] |> int
+    let readGame (gameText: string) =
+        match gameText.Split(':') with
+        | [| game; sets |] -> Some (Game (readGameId game, sets.Split(';') |> Seq.map readSet |> Seq.toList))
+        | _ -> None
+
+    fullText.Split("\n") |> Seq.choose readGame
+#+end_src
+
+#+RESULTS:
+#+begin_example
+let readText (fullText: string) =
+    let readCubes (Set (red,green,blue)) (cubeText: string) =
+        match cubeText.Split(' ') with
+        | [| x; "red" |] -> (Set (int x, green, blue))
+        | [| x; "green" |] -> (Set (red, int x, blue))
+        | [| x; "blue" |] -> (Set (red, green, int x))
+        | _ -> (Set (red, green, blue))
+
+    let readSet (setText: string) =
+        setText.Split(',')
+        |> Seq.map (fun x -> x.Trim())
+        |> Seq.fold readCubes (Set (0,0,0))
+
+    let readGameId (game: string) = game.Split(' ')[1] |> int
+    let readGame (gameText: string) =
+        match gameText.Split(':') with
+        | [| game; sets |] -> Some (Game (readGameId game, sets.Split(';') |> Seq.map readSet |> Seq.toList))
+        | _ -> None
+
+    fullText.Split("\n") |> Seq.choose readGame  ;;
+val readText: fullText: string -> Game seq
+#+end_example
+
+
+I will now create a bag (which is just a set).
+#+begin_src fsharp :session aoc-2023-02 :exports code
+let bag = Set (12, 13, 14)
+#+end_src
+
+
+And then read the example text, convert it to a list of games, validate each one, and then get a sum of the numbers.
+#+begin_src fsharp :session aoc-2023-02 :exports both
+let sampleText =
+    "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
+Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
+Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
+Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"
+
+sampleText
+|> readText
+|> Seq.choose (validGame bag)
+|> Seq.sum
+#+end_src
+
+#+RESULTS:
+: 8
+
+The result is correct for the example, and my answer for the puzzle is correct as well.
+
+*** Part 2
+
+In Part 2 I need to find the minimum bag needed for each game.
+This can be done by fining the maximum of each cube colour in each game.
+#+begin_src fsharp :session aoc-2023-02 :exports code
+let minSet (Game (_, sets)) =
+     let getRed (Set(r,_,_)) = r
+     let getGreen (Set(_,g,_)) = g
+     let getBlue (Set(_,_,b)) = b
+     let maxBy g = sets |> Seq.map g |> Seq.max
+     Set (maxBy getRed, maxBy getGreen, maxBy getBlue)
+#+end_src
+
+#+RESULTS:
+: let minSet (Game (_, sets)) =
+:      let getRed (Set(r,_,_)) = r
+:      let getGreen (Set(_,g,_)) = g
+:      let getBlue (Set(_,_,b)) = b
+:      let maxBy g = sets |> Seq.map g |> Seq.max
+:      Set (maxBy getRed, maxBy getGreen, maxBy getBlue);;
+: val minSet: Game -> Set
+
+I need a small function to calculate the power of each games minimum bag.
+#+begin_src fsharp :session aoc-2023-02 :exports code
+let powerCube (Set (red, green, blue)) = red * green * blue
+#+end_src
+
+#+RESULTS:
+: let powerCube (Set (red, green, blue)) = red * green * blue;;
+: val powerCube: Set -> int
+
+Now I put this all together and see if my results are close.
+#+begin_src fsharp :session aoc-2023-02 :exports both
+sampleText
+|> readText
+|> Seq.map minSet
+|> Seq.map powerCube
+|> Seq.sum
+#+end_src
+
+#+RESULTS:
+: 2286
+
+`2286` is the result I am expecting with the example input.
+My final answer is also correct, I have one more gold star.
+
+
+** AoC 2023, Day 3, Gear Ratios :AoC:advent:code:fsharp:
+:PROPERTIES:
+:EXPORT_FILE_NAME: aoc-2023-03
+:EXPORT_DATE: <2023-12-04 Mon 08:38>
+:END:
+
+Today's puzzle is called [[https://adventofcode.com/2023/day/3][Gear Ratios]].
+
+*** Part 1
+
+I am going to start by declaring a couple of types to help me.
+A digit can be a ~SymboolDigit~ or a ~NonSymbolDigit~, where a ~SymbolDigit~ will be any digit with a symbol around it.
+#+begin_src fsharp :session aoc-2023-03 :exports code
+open System
+
+type Digit = SymbolDigit of char | NonSymbolDigit of char
+type Number = PartNumber of string | OtherNumber of string
+#+end_src
+
+I also want a few helper functions. \\
+Check if a character is a symbol (not a digit or dot).
+#+begin_src fsharp :session aoc-2023-03 :exports code
+let isSymbol chr = chr <> '.' && not (Char.IsDigit chr)
+#+end_src
+
+Also, need to check if the edges are symbols, so lets have a way of getting all edges for a particular point.
+#+begin_src fsharp :session aoc-2023-03 :exports code
+let getEdges (text: string[]) r c =
+    seq { if r > 0 && c > 0 then yield (r-1, c-1)
+          if r > 0 then yield (r-1, c)
+          if r > 0 && c < text.[r-1].Length - 1 then yield (r-1, c+1)
+          if c > 0 then yield (r, c-1)
+          if c < text.[r].Length - 1 then yield (r, c+1)
+          if r < text.Length - 1 && c > 0 then yield (r+1, c-1)
+          if r < text.Length - 1 then yield (r+1, c)
+          if r < text.Length - 1 && c < text.[r+1].Length - 1 then yield (r+1, c+1) }
+#+end_src
+
+Also, if there is a symbol on the edge make it a ~SymbolDigit~, or else make it a ~NonSymbolDigit~.
+#+begin_src fsharp :session aoc-2023-03 :exports code
+let asDigit text r c chr =
+    let hasSymbol =
+        getEdges text r c
+        |> Seq.map (fun (r, c) -> text[r][c])
+        |> Seq.exists isSymbol
+    if hasSymbol then SymbolDigit chr
+    else NonSymbolDigit chr
+#+end_src
+
+
+I think that is the main helper functions done, So I want the main function to extract the digit groups. This uses an inner recursive function.
+#+begin_src fsharp :session aoc-2023-03 :exports code
+let extract (text: string[]) =
+    let rec extractRow r c (acc: List<Digit list>) (num: Digit list): List<Digit list> =
+        if r >= text.Length then acc
+        else if (c >= text[r].Length && num = []) then extractRow (r+1) 0 acc []
+        else if (c >= text[r].Length) then extractRow (r+1) 0 (acc@[num]) []
+        else
+            let chr = text[r][c]
+            if Char.IsDigit(chr) then
+                let dig = asDigit text r c chr
+                extractRow r (c+1) acc (num@[dig])
+            else if num <> [] then
+                extractRow r (c+1) (acc@[num]) []
+            else extractRow r (c+1) acc []
+    extractRow 0 0 [] []
+#+end_src
+
+This will result in a list of ~Digit~ lists, so lets have a function that will convert a digit list into a ~PartNumber~ or ~OtherNumber~.
+#+begin_src fsharp :session aoc-2023-03 :exports code
+let asNumber (num: Digit list) =
+    let rec partial (acc: Number) (remain: Digit list): Number =
+        match remain, acc with
+        | [], _ -> acc
+        | SymbolDigit head::tail, PartNumber x -> partial (PartNumber $"{x}{head}") tail
+        | SymbolDigit head::tail, OtherNumber x -> partial (PartNumber $"{x}{head}") tail
+        | NonSymbolDigit head::tail, PartNumber x -> partial (PartNumber $"{x}{head}") tail
+        | NonSymbolDigit head::tail, OtherNumber x -> partial (OtherNumber $"{x}{head}") tail
+    partial (OtherNumber "") num
+#+end_src
+
+And finally, lets convert the ~PartNumber~ into integers and ignore the ~OtherNumber~.
+#+begin_src fsharp :session aoc-2023-03 :exports code
+let partNumberAsInt (number: Number) =
+    match number with
+    | PartNumber x -> Some (int x)
+    | OtherNumber x -> None
+#+end_src
+
+Now, with the sample text, this can all be put together.
+#+begin_src fsharp :session aoc-2023-03 :exports both
+let sampleText =
+    "467..114..
+...*......
+..35..633.
+......#...
+617*......
+.....+.58.
+..592.....
+......755.
+...$.*....
+.664.598.."
+
+sampleText.Split('\n')
+|> extract
+|> List.map asNumber
+|> List.choose partNumberAsInt
+|> List.sum
+#+end_src
+
+~4361~ is the correct answer with the sample input. \\
+My final answer is also correct. I get another gold star, and I can move on to part 2.
+
+*** Part 2
+
+Part two will require some changes, mostly a copy paste of Part 1 answer with the required changes in each function.
+
+I am going to create a few more types, to describe what I am working with
+#+begin_src fsharp :session aoc-2023-03 :exports code
+type Gear = Gear of r: int * c: int
+type GearDigit =
+    | GearDigit of chr: char * gear: Gear
+    | NoGearDigit of char
+type GearNumber =
+    | GearNumber of number: string * gear: Gear
+    | NoGearNumber of number: string
+#+end_src
+
+And then a couple of helper methods
+#+begin_src fsharp :session aoc-2023-03 :exports code
+let isGear r c chr = if chr = '*' then Some (Gear (r, c)) else None
+
+let asGearDigit text r c chr =
+    let gear =
+        getEdges text r c
+        |> Seq.map (fun (r, c) -> text[r][c], r, c)
+        |> Seq.choose (fun (x, r, c) -> isGear r c x)
+        |> Seq.tryHead
+    match gear with
+    | Some g -> GearDigit (chr, g)
+    | None -> NoGearDigit chr
+#+end_src
+
+The extract method is very similar
+#+begin_src fsharp :session aoc-2023-03 :exports code
+let extractGears (text: string[]) =
+    let rec extractRow r c (acc: List<GearDigit list>) (num: GearDigit list): List<GearDigit list> =
+        if r >= text.Length then acc
+        else if (c >= text[r].Length && num = []) then extractRow (r+1) 0 acc []
+        else if (c >= text[r].Length) then extractRow (r+1) 0 (acc@[num]) []
+        else
+            let chr = text[r][c]
+            if Char.IsDigit(chr) then
+                let dig = asGearDigit text r c chr
+                extractRow r (c+1) acc (num@[dig])
+            else if num <> [] then
+                extractRow r (c+1) (acc@[num]) []
+            else extractRow r (c+1) acc []
+    extractRow 0 0 [] []
+#+end_src
+
+Similar to Part One, I now have a list of lists, so I will collect them into numbers, either with or without a gear.
+#+begin_src fsharp :session aoc-2023-03 :exports code
+let asGearNumber (num: GearDigit list) =
+    let rec partial (acc: GearNumber) (remain: GearDigit list): GearNumber =
+        match remain, acc with
+        | [], _ -> acc
+        | GearDigit (head, gear)::tail, GearNumber (x, _) -> partial (GearNumber ($"{x}{head}", gear)) tail
+        | GearDigit (head, gear)::tail, NoGearNumber x -> partial (GearNumber ($"{x}{head}", gear)) tail
+        | NoGearDigit head::tail, GearNumber (x, gear) -> partial (GearNumber ($"{x}{head}", gear)) tail
+        | NoGearDigit head::tail, NoGearNumber x -> partial (NoGearNumber $"{x}{head}") tail
+    partial (NoGearNumber "") num
+#+end_src
+
+The real difference starts now in matching, if two numbers have the same gear they are paired. I am going to use this function to convert to integers at the same time [fn::You could probably argue this violates separation of concerns (or SRP), which is a valuable rule in both functional and object oriented programming].
+#+begin_src fsharp :session aoc-2023-03 :exports code
+let numberPairs (numbers: GearNumber list) =
+    let rec matchPair (num: (string * Gear) option) (remain: (string * Gear) list): (int * int) option =
+        match num, remain with
+        | _, [] -> None
+        | Some (n, g), (no, go) :: _ when go = g -> Some (int n, int no)
+        | Some (n, g), _ :: tail -> matchPair (Some (n, g)) tail
+        | None, (no, go) :: tail -> matchPair (Some (no, go)) tail
+
+    let rec findPairs acc remain =
+        match remain with
+        | head :: tail ->
+            let pair = matchPair None (head::tail)
+            match pair with
+            | Some p -> findPairs (acc@[p]) tail
+            | None -> findPairs acc tail
+        | [] -> acc
+    numbers
+    |> List.choose (function | GearNumber (x, gear) -> Some (x, gear) | NoGearNumber _ -> None)
+    |> findPairs []
+#+end_src
+
+This can be piped together and executed
+#+begin_src fsharp :session aoc-2023-03 :exports both
+sampleText.Split('\n')
+|> extractGears
+|> List.map asGearNumber
+|> numberPairs
+|> List.map (fun (a,b) -> a*b)
+|> List.sum
+#+end_src
+
+The result of ~467835~ is what I am expecting with the sample data. \\
+My final answer is also correct, and I do get another star.
+
+
+
+** AoC 2023, Day 4, Scratchcards :AoC:advent:code:fsharp:
+:PROPERTIES:
+:EXPORT_FILE_NAME: aoc-2023-04
+:EXPORT_DATE: <2023-12-05 Tue 08:37>
+:END:
+
+Today's puzzle is called [[https://adventofcode.com/2023/day/4][Scratchcards]].
+
+*** Part 1
+
+I am going to start by creating a type called card to store the information in.
+#+begin_src fsharp :session aoc-2023-04 :exports code
+type Card = Card of no: int * winners: int [] * mine: int []
+#+end_src
+
+I need to be able to parse the card text, This could be done more elegant, but I'm going to split the string up, and assume there is no problem in the input data.
+#+begin_src fsharp :session aoc-2023-04 :exports code
+module Card =
+    let parse (text: string) =
+        let cleanSplit (text: string) (chr: char) =
+            text.Split(chr) |> Array.filter (fun x -> x.Length > 0)
+        let toNumArray (text: string) =
+            cleanSplit text ' '
+            |> Array.map (fun x -> x.Trim())
+            |> Array.filter (fun x -> x.Length > 0)
+            |> Array.map int
+
+        let cardNoSplit = text.Split(':')
+        let no = (cleanSplit cardNoSplit[0] ' ').[1].Trim() |> int
+        let numbersSplit = cardNoSplit[1].Split('|')
+        let winners = toNumArray numbersSplit[0]
+        let mine = toNumArray numbersSplit[1]
+        Card (no, winners, mine)
+#+end_src
+
+I can test this on the first row.
+#+NAME: aoc-2023-04-test1
+#+begin_src fsharp :session aoc-2023-04 :exports both
+Card.parse "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53"
+#+end_src
+
+Which returns:
+#+RESULTS: aoc-2023-04-test1
+: Card.parse "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53";;
+: val it: Card =
+:   Card (1, [|41; 48; 83; 86; 17|], [|83; 86; 6; 31; 17; 9; 48; 53|])
+
+I now need to score a card, let me first get the number of winning numbers in my numbers.
+#+begin_src fsharp :session aoc-2023-04 :exports code
+module Card =
+    let winningNumbers (Card (_, winners, mine)) =
+        [| for no in mine do
+           match (winners |> Seq.tryFind ((=) no)) with
+           | Some x -> yield x
+           | _ -> () |]
+#+end_src
+
+I will test this.
+#+NAME: aoc-2023-04-test2
+#+begin_src fsharp :session aoc-2023-04 :exports both :wrap example
+"Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19"
+|> Card.parse
+|> Card.winningNumbers
+#+end_src
+
+Which returns:
+#+RESULTS: aoc-2023-04-test2
+#+begin_example
+| 61 | 32 |
+#+end_example
+
+#+begin_src fsharp :session aoc-2023-04 :exports code
+module Card =
+    let score card =
+        let rec double acc numbers =
+            match numbers with
+            | [||] -> acc
+            | _ -> double (if acc = 0 then 1 else acc * 2) numbers[1..]
+        double 0 (Card.winningNumbers card)
+#+end_src
+
+I will test this.
+#+NAME: aoc-2023-04-test3
+#+begin_src fsharp :session aoc-2023-04 :exports both :wrap example
+"Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1"
+|> Card.parse
+|> Card.score
+#+end_src
+
+Which returns:
+#+RESULTS: aoc-2023-04-test3
+#+begin_example
+2
+#+end_example
+
+I am happy this far, lets pipe it all together and see what we get.
+#+NAME: aoc-2023-04-test4
+#+begin_src fsharp :session aoc-2023-04 :exports both :wrap example
+let sampleText =
+    "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
+Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
+Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1
+Card 4: 41 92 73 84 69 | 59 84 76 51 58  5 54 83
+Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
+Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11"
+
+sampleText.Split('\n')
+|> Seq.map Card.parse
+|> Seq.map Card.score
+|> Seq.sum
+#+end_src
+
+~13~ is the correct answer for the sample data. \\
+My final answer is also correct, so I earn another gold star.
+
+*** Part 2
+
+In part two we need to keep track of how many times a card is copies.
+
+I am going to create a very basic record type that will keep the number of matching numbers on a card, and how many copies of this card we have.
+#+begin_src fsharp :session aoc-2023-04 :exports code
+type CardMatch = { matches: int; copies: int }
+#+end_src
+
+
+I am also creating some functions that will help me track the number of copies we have of each card. In F# items in an array can be changed [fn::/Changing/ things is not normally the functional way to do something, but it is the way that makes sense to me in this situation.], so I am using that to update the count as we go down all the cards.
+#+begin_src fsharp :session aoc-2023-04 :exports code
+module CardMatch =
+    let create matches = { matches = matches; copies = 1 }
+    let checkMatches cards = cards |> Seq.map (Card.winningNumbers >> Seq.length >> create)
+    let copies m = m.copies
+
+    let copyCards cardsWithMatches =
+        let copiesOfCards = Seq.toArray cardsWithMatches
+        for i = 0 to copiesOfCards.Length - 1 do
+            let m = copiesOfCards[i]
+            for j = i + 1 to i + m.matches do
+                let c = copiesOfCards[j]
+                copiesOfCards[j] <- { c with copies = c.copies + m.copies }
+        copiesOfCards
+#+end_src
+
+I now pipe this together and see what we get.
+#+NAME: aoc-2023-04-test5
+#+begin_src fsharp :session aoc-2023-04 :exports both :wrap example
+sampleText.Split('\n')
+|> Seq.map Card.parse
+|> CardMatch.checkMatches
+|> CardMatch.copyCards
+|> Seq.sumBy CardMatch.copies
+#+end_src
+
+#+RESULTS: aoc-2023-04-test5
+#+begin_example
+30
+#+end_example
+
+~30~ is the value I am expecting with the sample data. \\
+My answer with the complete data is also correct, and I get another star.
