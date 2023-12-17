@@ -13,7 +13,6 @@ https://nethuml.github.io/posts/2022/06/blog-setup-with-hugo-org-mode/
 :EXPORT_DATE: <2023-12-11 Mon 05:17>
 :END:
 
-?
 I am currently quite a few days behind.
 I will try catching up bit by bit.
 
@@ -130,3 +129,114 @@ let result =
 #+end_src
 
 Because ~35~ is the answer I am expecting, and my answer with the full puzzle text is also correct, I finally get another star.
+
+
+** AoC 2023, Day 6, Wait for it :AoC:advent:code:fsharp:units_of_measure:
+:PROPERTIES:
+:EXPORT_FILE_NAME: aoc-2023-06
+:EXPORT_DATE: <2023-12-17 Sun 12:39>
+:END:
+
+This puzzle is called [[https://adventofcode.com/2023/day/6][Wait For It]].
+
+#+begin_src fsharp :session aoc-2023-06 :exports code
+open System
+
+let sampleText =
+    "Time:      7  15   30
+Distance:  9  40  200"
+#+end_src
+
+*** Part 1
+
+In this puzzle, I can make use of units of measure.
+This will allow me to make sure I don't get my time numbers mixed up with my distance numbers. \\
+Because F# does not have built-in units for milliseconds and milliseconds I can very easily define them myself.
+#+begin_src fsharp :session aoc-2023-06 :exports code
+[<Measure>] type ms
+[<Measure>] type mm
+#+end_src
+
+I also want a type to hold the basic data for each rice that is extracted while parsing.
+#+begin_src fsharp :session aoc-2023-06 :exprts code
+type Race = Race of time: int64<ms> * distance: int64<mm>
+#+end_src
+
+I need a couple of functions to help me pass the text into my ~Race~ type.
+#+begin_src fsharp :session aoc-2023-06 :exprts code
+let pasreAs (measure: int64<'a>) (txt: string) =
+        txt.Split(':').[1].Trim().Split(' ')
+        |> Array.where (fun s -> s <> "")
+        |> Array.map int64
+        |> Array.map ((*) measure)
+
+let parseRases (text: string) =
+    let [|t; d|] = text.Split('\n')
+    let times = t |> pasreAs 1L<ms>
+    let dists = d |> pasreAs 1L<mm>
+    [ for i = 0 to times.Length - 1 do
+        yield Race (times[i], dists[i])]
+#+end_src
+
+The next function will calculate the distance the boat will travel, given the time it spends accelerating and time is spends moving.
+#+begin_src fsharp :session aoc-2023-06 :exprts code
+let distanceTraveld accelerate time =
+    let speed = accelerate * 1L<mm/ms^2>
+    let timeToRace = time - accelerate
+    let distance = speed * timeToRace
+    distance
+#+end_src
+
+I need to calculate each possible travel distance for each race.
+#+begin_src fsharp :session aoc-2023-06 :exprts code
+let allAcceleratorOptions (time: int64<ms>) =
+    seq { for i = 1L to (time * 1L</ms>) do
+          yield distanceTraveld (i*1L<ms>) time }
+#+end_src
+
+I must count how many of each possible travel distances would win
+#+begin_src fsharp :session aoc-2023-06 :exprts code
+let winCount (Race (time, distance)) =
+    allAcceleratorOptions time
+    |> Seq.filter (fun x -> distance < x)
+    |> Seq.length
+#+end_src
+
+Let me run this, and see what I get.
+#+begin_src fsharp :session aoc-2023-06 :exports both
+sampleText
+|> parseRases
+|> List.map winCount
+|> List.fold (*) 1
+#+end_src
+
+~288~ is the expected value for the test data. \\
+My final answer is also correct, and I get another star.
+
+*** Part 2
+
+In part two, most calculations are exactly the same.
+We rather just has to run it as a single race, rather than a collection of races.
+
+I will create a couple of more functions to parse the input text as a single race.
+#+begin_src fsharp :session aoc-2023-06 :exprts code
+let parseAsOne (measure: int64<'a>) (txt: string) =
+    txt.Split(':').[1].Replace(" ", "").Trim()
+    |> int64
+    |> ((*) measure)
+
+let parseOneRace (text: string) =
+    let [|t; d|] = text.Split('\n')
+    let time = t |> parseAsOne 1L<ms>
+    let dist = d |> parseAsOne 1L<mm>
+    Race (time, dist)
+#+end_src
+
+I will then run this, and see what I get.
+#+begin_src fsharp :session aoc-2023-06 :exports both
+sampleText
+|> parseOneRace
+|> winCount
+#+end_src
+
+~71503~ is correct, and I get another star for my final answer as well.
